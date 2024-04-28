@@ -34,6 +34,8 @@ def preprocess(smiles: str, preproc: bool = False) -> str:
 def molnet_loader(
     name: str, preproc: bool = False, task_name: str = None, **kwargs
 ) -> Tuple[str, np.array, np.array, np.array]:
+    
+    #https://deepchem.readthedocs.io/en/latest/api_reference/moleculenet.html
     mn_loader = getattr(mn, f"load_{name}")
     dc_set = mn_loader(**kwargs)
 
@@ -72,7 +74,7 @@ def molnet_loader(
 
 if __name__ == "__main__":
     tasks, X_train, y_train, X_valid, y_valid, X_test, y_test = molnet_loader(
-        "bace_classification", preproc=False, task_name="Class"
+        "qm7", preproc=False
     )
     print(X_train[0], y_train[0])
     print(X_valid[0], y_valid[0])
