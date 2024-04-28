@@ -1,6 +1,5 @@
 import numpy as np
 from typing import Any, Iterable, List, Tuple
-from descriptastorus.descriptors.rdNormalizedDescriptors import RDKit2DNormalized
 
 
 class ZipFeaturizer(object):
@@ -70,36 +69,3 @@ class ZipFeaturizer(object):
             string_reps.append("".join(string_rep))
 
         return string_reps
-
-    def featurize(self, smiles: Iterable[str]) -> Tuple[np.ndarray, List[int]]:
-        generator = RDKit2DNormalized()
-        feature_vectors = []
-        for s in smiles:
-            v = generator.process(s.split(" ")[0])
-            if v is not None:
-                feature_vectors.append(v[1:])
-            else:
-                feature_vectors.append(np.array([np.nan] * 200))
-
-        feature_vectors = np.array(feature_vectors)
-
-        indices_with_nan = [
-            i for i, subarray in enumerate(feature_vectors) if np.isnan(subarray).any()
-        ]
-
-        if len(indices_with_nan) > 0:
-            feature_vectors = np.array(
-                [
-                    subarray
-                    for subarray in feature_vectors
-                    if not np.isnan(subarray).any()
-                ]
-            )
-            vectors = self.bin_vectors(feature_vectors)
-        else:
-            vectors = self.bin_vectors(feature_vectors)
-
-        return (
-            np.array([np.array(s + x) for s, x in zip(smiles, vectors)]),
-            indices_with_nan,
-        )

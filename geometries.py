@@ -4,9 +4,8 @@ import random
 random.seed(666)
 import numpy as np
 import os
-from cMBDF import generate_mbdf
-import pdb
-
+from MBDF import generate_mbdf
+from vec2str import ZipFeaturizer
 
 #http://www.quantum-machine.org/gdml/data/npz/md17_aspirin.npz
 #if file is not found, download it from the above link and place it in the same directory as the code
@@ -36,4 +35,5 @@ R = R[indices]
 
 X = generate_mbdf(z, R, local=False)
 
-pdb.set_trace()
+converter = ZipFeaturizer()
+string_reps = converter.bin_vectors(X)
