@@ -219,12 +219,17 @@ class SmallMolTraj:
         self.results = {"cMBDF": X_MBDF, "SLATM": X_SLATM, "BOB": X_BOB, "y": self.E}
 
         return self.results
+    
+    def save(self):
+        dump2pkl(self.results, f"{self.molname}.pkl", compress=True)
+
 
 if __name__ == '__main__':
 
     smallMol = SmallMolTraj("aspirin")
     smallMol.get_data()
     smallMol.gen_representation()
+    smallMol.save()
 
     tasks, X_train, y_train, X_valid, y_valid, X_test, y_test = molnet_loader(
         "qm7", preproc=False
