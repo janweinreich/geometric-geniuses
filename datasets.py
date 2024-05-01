@@ -230,16 +230,16 @@ class SmallMolTraj:
         """
         generate the representation of the molecule
         """
-        X_MBDF = get_cMBDF(self.z, self.R, local=False)
-        X_SLATM = get_all_slatm(self.z, self.R, local=False)
-        X_BOB = gen_all_bob(self.R, self.z, size=100, asize={"O": 4, "C": 12, "N": 3, "H": 16, "S": 1})
+        X_MBDF   = get_cMBDF(self.z, self.R, local=False)
+        X_SLATM  = get_all_slatm(self.z, self.R, local=False)
+        X_BOB    = gen_all_bob(self.R, self.z, size=100, asize={"O": 4, "C": 12, "N": 3, "H": 16, "S": 1})
         
         self.results = {"cMBDF": X_MBDF, "SLATM": X_SLATM, "BOB": X_BOB, "y": self.E}
-
+        pdb.set_trace()
         return self.results
     
     def save(self):
-        dump2pkl(self.results, f"{self.molname}.pkl", compress=True)
+        dump2pkl(self.results, f".data/rep_{self.molname}.pkl", compress=True)
 
 
 if __name__ == '__main__':
@@ -265,9 +265,8 @@ if __name__ == '__main__':
     print(tasks)
     X_feat_train, y_train = dc_featurize(X_train, y_train, featurizer_mapping['rdkit'])
     X_feat_valid, y_valid = dc_featurize(X_valid, y_valid, featurizer_mapping['rdkit'])
-    X_feat_test, y_test = dc_featurize(X_test, y_test, featurizer_mapping['rdkit'])
+    X_feat_test, y_test   = dc_featurize(X_test, y_test, featurizer_mapping['rdkit'])
     print(X_feat_test.shape)
-    #print(X_feat_test[1], y_test[1])   
     converter = ZipFeaturizer()
     string_reps = converter.bin_vectors(X_feat_test)
     print(string_reps[0])
