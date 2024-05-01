@@ -11,14 +11,13 @@ import numpy as np
 from typing import List, Dict, Any, Tuple, Optional
 import deepchem.molnet as mn
 import pandas as pd
-from sklearn.model_selection import train_test_split
 from pathlib import Path
-from rdkit import Chem
 from rdkit.Chem import MolFromSmiles, MolToSmiles
 import re
 import bz2, pickle
 import json
 import deepchem as dc
+from tqdm import tqdm
 
 from vec2str import ZipFeaturizer
 from representations import get_cMBDF, get_all_slatm, gen_all_bob
@@ -218,7 +217,7 @@ class SmallMolTraj:
 
         data = np.load(f'./.data/{self.molname}.npz')
 
-        indices = np.random.choice(data["R"].shape[0], 20000, replace=False)
+        indices = np.random.choice(data["R"].shape[0], 5000, replace=False)
         self.z = (np.array(list(data["z"]) * data["R"].shape[0])).reshape(
             data["R"].shape[0], -1
         )[indices]
@@ -235,14 +234,33 @@ class SmallMolTraj:
         X_BOB    = gen_all_bob(self.R, self.z, size=100, asize={"O": 4, "C": 12, "N": 3, "H": 16, "S": 1})
         
         self.results = {"cMBDF": X_MBDF, "SLATM": X_SLATM, "BOB": X_BOB, "y": self.E}
-        pdb.set_trace()
+
         return self.results
     
     def save(self):
+        """
+        save the representation to a file
+        """
         dump2pkl(self.results, f".data/rep_{self.molname}.pkl", compress=True)
 
 
+
+
+
 if __name__ == '__main__':
+    DO_SMALL_MOLECULES = False
+
+    if DO_SMALL_MOLECULES:
+        SMALL_MOLECULES = ["aspirin", "benzene2017", "ethanol", "malonaldehyde", "naphthalene", "salicylic", "toluene", "uracil"]
+
+        for mol in tqdm(SMALL_MOLECULES):
+            smallMol = SmallMolTraj(mol)
+            smallMol.get_data()
+            smallMol.gen_representation()
+            smallMol.save()
+    
+    data = loadpkl(".data/rep_aspirin.pkl", compress=True)
+    pdb.set_trace()
 
     featurizer_mapping = {
     'rdkit': dc.feat.RDKitDescriptors(),
@@ -250,11 +268,6 @@ if __name__ == '__main__':
     'ecfp': dc.feat.CircularFingerprint(size=2048, radius=4),
     'mordred': dc.feat.MordredDescriptors(ignore_3D=True)
     }
-
-    smallMol = SmallMolTraj("aspirin")
-    smallMol.get_data()
-    smallMol.gen_representation()
-    smallMol.save()
 
     tasks, X_train, y_train, X_valid, y_valid, X_test, y_test = molnet_loader(
         "qm7", preproc=False
