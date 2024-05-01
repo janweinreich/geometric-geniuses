@@ -18,7 +18,9 @@ from rdkit.Chem import MolFromSmiles, MolToSmiles
 import re
 import bz2, pickle
 import json
+import deepchem as dc
 
+from vec2str import ZipFeaturizer
 from representations import get_cMBDF, get_all_slatm, gen_all_bob
 
 
@@ -150,7 +152,7 @@ def molnet_loader(
     X_valid = np.array([preprocess(x, preproc) for x in valid.ids])
     X_test = np.array([preprocess(x, preproc) for x in test.ids])
 
-    if name in ["freesolv", "delaney", "lipo", "bace_regression", "sample"]:
+    if name in ["freesolv", "delaney", "lipo", "bace_regression", "sampl", "qm7"]:
         # for regression tasks
         y_train = np.array(y_train, dtype=float)
         y_valid = np.array(y_valid, dtype=float)
@@ -163,6 +165,22 @@ def molnet_loader(
 
     return tasks, X_train, y_train, X_valid, y_valid, X_test, y_test
 
+def dc_featurize(X_data, y_data, featurizer):
+    features = []
+    y_cleaned = []
+    for index, smiles in enumerate(X_data):
+        try:
+            feature = featurizer.featurize(smiles)
+            features.append(feature)
+            y_cleaned.append(y_data[index])
+        except Exception as e:
+            print(f"Error featurizing SMILES: {smiles}", flush=True)
+            print(f"Error message: {str(e)}", flush=True)
+
+    features_array = np.squeeze(np.array(features))
+    y_array = np.array(y_cleaned)    
+    
+    return features_array, y_array
 
 class SmallMolTraj:
 
@@ -222,6 +240,13 @@ class SmallMolTraj:
 
 if __name__ == '__main__':
 
+    featurizer_mapping = {
+    'rdkit': dc.feat.RDKitDescriptors(),
+    'mol2vec': dc.feat.Mol2VecFingerprint(),
+    'ecfp': dc.feat.CircularFingerprint(size=2048, radius=4),
+    'mordred': dc.feat.MordredDescriptors(ignore_3D=True)
+    }
+
     smallMol = SmallMolTraj("aspirin")
     smallMol.get_data()
     smallMol.gen_representation()
@@ -229,8 +254,16 @@ if __name__ == '__main__':
     tasks, X_train, y_train, X_valid, y_valid, X_test, y_test = molnet_loader(
         "qm7", preproc=False
     )
-    print(X_train[0], y_train[0])
-    print(X_valid[0], y_valid[0])
-    print(X_test[0], y_test[0])
+    print(X_train[1], y_train[1])
+    print(X_valid[1], y_valid[1])
+    print(X_test[1], y_test[1])
     print(tasks)
+    X_feat_train, y_train = dc_featurize(X_train, y_train, featurizer_mapping['rdkit'])
+    X_feat_valid, y_valid = dc_featurize(X_valid, y_valid, featurizer_mapping['rdkit'])
+    X_feat_test, y_test = dc_featurize(X_test, y_test, featurizer_mapping['rdkit'])
+    print(X_feat_test.shape)
+    #print(X_feat_test[1], y_test[1])   
+    converter = ZipFeaturizer()
+    string_reps = converter.bin_vectors(X_feat_test)
+    print(string_reps[0])
     pdb.set_trace()
