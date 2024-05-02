@@ -304,7 +304,7 @@ if __name__ == '__main__':
         X_valid_selfies = smiles_to_selfies(X_valid)
         X_test_selfies = smiles_to_selfies(X_test)
         results = {"X_train": X_train, "X_valid": X_valid, "X_test": X_test, "y_train": y_train, "y_valid": y_valid, "y_test": y_test, "X_train_selfies": X_train_selfies, "X_valid_selfies": X_valid_selfies, "X_test_selfies": X_test_selfies}
-        dump2pkl(results, f"./data/rep_{args.mn_dataset}_cansmiles_selfies.pkl", compress=True)
+        dump2pkl(results, f"./data/rep_{args.mn_dataset}_smiles_selfies.pkl", compress=True)
     else:
         featurizer_mapping = {
         'rdkit': dc.feat.RDKitDescriptors(),
