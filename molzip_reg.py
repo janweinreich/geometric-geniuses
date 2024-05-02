@@ -175,12 +175,20 @@ if __name__ == "__main__":
         input_file.close()
         return obj
 
-    data = loadpkl("data/rep_delaney_rdkit.pkl", compress=True)
+    data = loadpkl("data/rep_uracil.pkl", compress=True)
+    X = data["cMBDF"]
+    y = data["y"]
+    y_min = np.min(y)
+    y+= -y_min
+    # split the data into training and testing sets
+    from sklearn.model_selection import train_test_split
+    
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    pdb.set_trace()
     converter = ZipFeaturizer()
-    X_train = converter.bin_vectors(data["X_train"])
-    X_test = converter.bin_vectors(data["X_test"])
-    y_train = data["y_train"]
-    y_test = data["y_test"]
+    X_train = converter.bin_vectors(X_train)
+    X_test = converter.bin_vectors(X_test)
 
     # pdb.set_trace()
     reg = ZipRegressor()
@@ -192,6 +200,5 @@ if __name__ == "__main__":
     plt.xlabel("Actual")
     plt.ylabel("Predicted")
     plt.title("Actual vs Predicted")
-    plt.show()
-
-    #pdb.set_trace()
+    #plt.show()
+    plt.savefig("actual_vs_predicted.png")
