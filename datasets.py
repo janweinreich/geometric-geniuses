@@ -18,9 +18,10 @@ import bz2, pickle
 import json
 import deepchem as dc
 from tqdm import tqdm
+import argparse
 
 from vec2str import ZipFeaturizer
-from representations import get_cMBDF, get_all_slatm, gen_all_bob
+#from representations import get_cMBDF, get_all_slatm, gen_all_bob
 
 
 def numpy_encoder(obj):
@@ -241,16 +242,38 @@ class SmallMolTraj:
         """
         save the representation to a file
         """
-        dump2pkl(self.results, f".data/rep_{self.molname}.pkl", compress=True)
+        dump2pkl(self.results, f"./data/rep_{self.molname}.pkl", compress=True)
 
 
 
 
 
 if __name__ == '__main__':
-    DO_SMALL_MOLECULES = False
+    """
+    Usage:
+    python datasets.py [--mn_dataset <dataset name>] [--featurizer <featurizer>] [--optimize]
 
-    if DO_SMALL_MOLECULES:
+    Arguments:
+
+    Options:
+    --mn_dataset <dataset name>   Name of the MoleculeNet dataset to load
+                                  Choices: qm7, delaney, lipo, tox21
+                                  [default: qm7]
+    --featurizer <featurizer>   Molecular featurizer to use
+                                Choices: mol2vec, rdkit, ecfp, mordred
+                                [default: rdkit]
+    --do_small                  Load MD trajectory datasets
+
+    Example:
+    python datasets.py --mn_dataset qm7 --featurizer mol2vec --optimize
+    """
+    parser = argparse.ArgumentParser(description='Generate dataset features', usage=__doc__)
+    parser.add_argument('--mn_dataset', type=str, default='qm7',choices=['qm7', 'delaney', 'lipo', 'tox21'] ,help='Name of the MoleculeNet dataset to load')
+    parser.add_argument('--featurizer', type=str, default='rdkit', choices=['mol2vec', 'rdkit', 'ecfp', 'mordred'], help='Molecular featurizer to use (default: rdkit)')
+    parser.add_argument('--do_small', action='store_true', help='Load MD trajectory dataset features')
+    args = parser.parse_args()
+
+    if args.do_small:
         SMALL_MOLECULES = ["aspirin", "benzene2017", "ethanol", "malonaldehyde", "naphthalene", "salicylic", "toluene", "uracil"]
 
         for mol in tqdm(SMALL_MOLECULES):
@@ -258,29 +281,26 @@ if __name__ == '__main__':
             smallMol.get_data()
             smallMol.gen_representation()
             smallMol.save()
+    else:
+        featurizer_mapping = {
+        'rdkit': dc.feat.RDKitDescriptors(),
+        'mol2vec': dc.feat.Mol2VecFingerprint(),
+        'ecfp': dc.feat.CircularFingerprint(size=2048, radius=4),
+        'mordred': dc.feat.MordredDescriptors(ignore_3D=True)
+        }
+
+        tasks, X_train, y_train, X_valid, y_valid, X_test, y_test = molnet_loader(
+            args.mn_dataset, preproc=True
+        )
+        print(X_train[1], y_train[1])
+        print(X_valid[1], y_valid[1])
+        print(X_test[1], y_test[1])
+        X_feat_train, y_train = dc_featurize(X_train, y_train, featurizer_mapping[args.featurizer])
+        X_feat_valid, y_valid = dc_featurize(X_valid, y_valid, featurizer_mapping[args.featurizer])
+        X_feat_test, y_test   = dc_featurize(X_test, y_test, featurizer_mapping[args.featurizer])
+        print(X_feat_test.shape)
+        results = {"X_train": X_feat_train, "X_valid": X_feat_valid, "X_test": X_feat_test, "y_train": y_train, "y_valid": y_valid, "y_test": y_test}
+
+        dump2pkl(results, f"./data/rep_{args.mn_dataset}_{args.featurizer}.pkl", compress=True)
+
     
-    data = loadpkl(".data/rep_aspirin.pkl", compress=True)
-    pdb.set_trace()
-
-    featurizer_mapping = {
-    'rdkit': dc.feat.RDKitDescriptors(),
-    'mol2vec': dc.feat.Mol2VecFingerprint(),
-    'ecfp': dc.feat.CircularFingerprint(size=2048, radius=4),
-    'mordred': dc.feat.MordredDescriptors(ignore_3D=True)
-    }
-
-    tasks, X_train, y_train, X_valid, y_valid, X_test, y_test = molnet_loader(
-        "qm7", preproc=False
-    )
-    print(X_train[1], y_train[1])
-    print(X_valid[1], y_valid[1])
-    print(X_test[1], y_test[1])
-    print(tasks)
-    X_feat_train, y_train = dc_featurize(X_train, y_train, featurizer_mapping['rdkit'])
-    X_feat_valid, y_valid = dc_featurize(X_valid, y_valid, featurizer_mapping['rdkit'])
-    X_feat_test, y_test   = dc_featurize(X_test, y_test, featurizer_mapping['rdkit'])
-    print(X_feat_test.shape)
-    converter = ZipFeaturizer()
-    string_reps = converter.bin_vectors(X_feat_test)
-    print(string_reps[0])
-    pdb.set_trace()
