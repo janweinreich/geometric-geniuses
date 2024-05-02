@@ -3,7 +3,7 @@ from typing import Any, Iterable, List, Tuple
 
 
 class ZipFeaturizer(object):
-    def __init__(self, n_bins: int = 128) -> "ZipFeaturizer":
+    def __init__(self, n_bins: int = 512) -> "ZipFeaturizer":
         self.n_bins = n_bins
 
     def __call__(self, smiles: Iterable[str]) -> Tuple[np.ndarray, List[int]]:

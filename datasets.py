@@ -22,7 +22,6 @@ import argparse
 from selfies import encoder
 
 from vec2str import ZipFeaturizer
-#from representations import get_cMBDF, get_all_slatm, gen_all_bob
 
 
 def numpy_encoder(obj):
@@ -242,22 +241,25 @@ class SmallMolTraj:
         """
         generate the representation of the molecule
         """
+        try:
+            from representations import get_cMBDF, get_all_slatm, gen_all_bob
+        except ImportError:
+            print("Requieres installation of specific packages, qml and MBDF")
+            exit()
+
         X_MBDF   = get_cMBDF(self.z, self.R, local=False)
         X_SLATM  = get_all_slatm(self.z, self.R, local=False)
         X_BOB    = gen_all_bob(self.R, self.z, size=100, asize={"O": 4, "C": 12, "N": 3, "H": 16, "S": 1})
-        
+
         self.results = {"cMBDF": X_MBDF, "SLATM": X_SLATM, "BOB": X_BOB, "y": self.E}
 
         return self.results
-    
+
     def save(self):
         """
         save the representation to a file
         """
         dump2pkl(self.results, f"./data/rep_{self.molname}.pkl", compress=True)
-
-
-
 
 
 if __name__ == '__main__':
@@ -324,5 +326,3 @@ if __name__ == '__main__':
         results = {"X_train": X_feat_train, "X_valid": X_feat_valid, "X_test": X_feat_test, "y_train": y_train, "y_valid": y_valid, "y_test": y_test}
 
         dump2pkl(results, f"./data/rep_{args.mn_dataset}_{args.featurizer}.pkl", compress=True)
-
-    
