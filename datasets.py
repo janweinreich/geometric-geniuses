@@ -19,6 +19,7 @@ import json
 import deepchem as dc
 from tqdm import tqdm
 import argparse
+from selfies import encoder
 
 from vec2str import ZipFeaturizer
 #from representations import get_cMBDF, get_all_slatm, gen_all_bob
@@ -182,6 +183,17 @@ def dc_featurize(X_data, y_data, featurizer):
     
     return features_array, y_array
 
+def smiles_to_selfies(smiles_array):
+    selfies_array = []
+    for smiles_string in smiles_array:
+        try:
+            selfies_string = encoder(smiles_string)
+            selfies_array.append(selfies_string)
+        except Exception as e:
+            print(f"Error converting SMILES '{smiles_string}': {e}")
+
+    return np.array(selfies_array)
+
 class SmallMolTraj:
 
     """
@@ -271,6 +283,7 @@ if __name__ == '__main__':
     parser.add_argument('--mn_dataset', type=str, default='qm7',choices=['qm7', 'delaney', 'lipo', 'tox21'] ,help='Name of the MoleculeNet dataset to load')
     parser.add_argument('--featurizer', type=str, default='rdkit', choices=['mol2vec', 'rdkit', 'ecfp', 'mordred'], help='Molecular featurizer to use (default: rdkit)')
     parser.add_argument('--do_small', action='store_true', help='Load MD trajectory dataset features')
+    parser.add_argument('--do_smiles', action='store_true', help='Save SMILES data')
     args = parser.parse_args()
 
     if args.do_small:
@@ -281,6 +294,15 @@ if __name__ == '__main__':
             smallMol.get_data()
             smallMol.gen_representation()
             smallMol.save()
+    elif args.do_smiles:
+        tasks, X_train, y_train, X_valid, y_valid, X_test, y_test = molnet_loader(
+            args.mn_dataset, preproc=False
+        )
+        X_train_selfies = smiles_to_selfies(X_train)
+        X_valid_selfies = smiles_to_selfies(X_valid)
+        X_test_selfies = smiles_to_selfies(X_test)
+        results = {"X_train": X_train, "X_valid": X_valid, "X_test": X_test, "y_train": y_train, "y_valid": y_valid, "y_test": y_test, "X_train_selfies": X_train_selfies, "X_valid_selfies": X_valid_selfies, "X_test_selfies": X_test_selfies}
+        dump2pkl(results, f"./data/rep_{args.mn_dataset}_cansmiles_selfies.pkl", compress=True)
     else:
         featurizer_mapping = {
         'rdkit': dc.feat.RDKitDescriptors(),
