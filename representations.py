@@ -1,4 +1,5 @@
 import numpy as np
+import os
 from tqdm import tqdm
 from sklearn.model_selection import ParameterGrid, KFold
 from qml.representations import generate_fchl_acsf
@@ -11,6 +12,7 @@ from qml.representations import get_slatm_mbtypes, generate_slatm
 from qstack import compound, spahm
 from qml.representations import generate_bob
 import pdb
+import tempfile
 
 # lookup here!
 # https://github.com/janweinreich/FML
@@ -95,9 +97,17 @@ def gen_soap(crds, chgs, species = ['Br', 'C', 'F', 'H', 'N', 'O', 'S', 'Cl', 'P
     return average_soap.create(molecule)
 
 
-def get_all_spham(MOLS, pad=400):
+def get_all_spham(CHARGES,COORDINATES, pad=400):
     X = []
-    for mol in MOLS:
+    xyz_file_path = './.tmp.xyz' 
+    for z,r in zip(CHARGES,COORDINATES):
+        # Create a temporary file to write the XYZ data
+        with open(xyz_file_path, "w") as file:
+            file.write(f"{z} {r[0]} {r[1]} {r[2]}\n")
+        pdb.set_trace()
+        # Load the molecule from the XYZ file
+        mol = compound.xyz_to_mol(xyz_file_path, "def2svp", charge=0, spin=0)
+
         X.append(spahm.compute_spahm.get_spahm_representation(mol, "lb")[0])
 
     X = np.array(X)

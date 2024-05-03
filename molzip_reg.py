@@ -186,13 +186,13 @@ if __name__ == "__main__":
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 
-    converter = ZipFeaturizer()
+    converter = ZipFeaturizer(n_bins=700)
     X_train = converter.bin_vectors(X_train)
     X_test = converter.bin_vectors(X_test)
 
     # pdb.set_trace()
     reg = ZipRegressor()
-    preds = reg.fit_predict(X_train, y_train, X_test)
+    preds = reg.fit_predict(X_train, y_train, X_test, k=10)
     # create a scatter plot of the predicted vs actual values
     import matplotlib.pyplot as plt
 
