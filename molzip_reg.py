@@ -6,9 +6,8 @@ from functools import partial
 import numpy as np
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import KFold
-
 import pdb
-
+from datasets import loadpkl
 
 class Compressor(ABC):
     def __init__(self) -> None: ...
@@ -164,32 +163,41 @@ if __name__ == "__main__":
 
     compress_fileopener = {True: bz2.BZ2File, False: open}
 
-    def loadpkl(filename: str, compress: bool = False):
-        """
-        Load an object from a pickle file.
-        filename : name of the imported file
-        compress : whether bz2 compression was used in creating the loaded file.
-        """
-        input_file = compress_fileopener[compress](filename, "rb")
-        obj = pickle.load(input_file)
-        input_file.close()
-        return obj
-
-    data = loadpkl("data/rep_uracil.pkl", compress=True)
-    X = data["cMBDF"]
-    y = data["y"]
-    y_min = np.min(y)
-    y+= -y_min
-    # split the data into training and testing sets
-    from sklearn.model_selection import train_test_split
-
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    do_small = False
+    
 
     converter = ZipFeaturizer(n_bins=700)
-    X_train = converter.bin_vectors(X_train)
-    X_test = converter.bin_vectors(X_test)
 
-    # pdb.set_trace()
+    if do_small:
+        
+        from sklearn.model_selection import train_test_split
+        data = loadpkl("data/rep_uracil.pkl", compress=True)
+
+        X = data["cMBDF"]
+        y = data["y"]
+        y_min = np.min(y)
+        y+= -y_min 
+
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+        
+        X_train = converter.bin_vectors(X_train)
+        X_test = converter.bin_vectors(X_test)
+
+    else:
+        data_smi = loadpkl("data/rep_delaney_smiles_selfies.pkl", compress=True)
+        data_vec = loadpkl("data/rep_delaney_rdkit.pkl", compress=True)
+
+        X_train_smi, X_test_smi, y_train, y_test = data_smi["X_train"], data_smi["X_test"], data_smi["y_train"], data_smi["y_test"]
+        X_train_vec, X_test_vec = data_vec["X_train"], data_vec["X_test"]
+
+        X_train_vec, X_train_vec = converter.bin_vectors(X_train_vec), converter.bin_vectors(X_train_vec)
+        X_test_vec, X_test_vec = converter.bin_vectors(X_test_vec), converter.bin_vectors(X_test_vec)
+        
+        X_train = [s+ x for s, x in zip(X_train_smi, X_train_vec)]
+        X_test =  [s+ x for s, x in zip(X_test_smi, X_test_vec)]
+
+ 
     reg = ZipRegressor()
     preds = reg.fit_predict(X_train, y_train, X_test, k=10)
     # create a scatter plot of the predicted vs actual values
