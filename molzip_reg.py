@@ -182,9 +182,8 @@ if __name__ == "__main__":
     y+= -y_min
     # split the data into training and testing sets
     from sklearn.model_selection import train_test_split
-    
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     converter = ZipFeaturizer(n_bins=700)
     X_train = converter.bin_vectors(X_train)
@@ -200,5 +199,5 @@ if __name__ == "__main__":
     plt.xlabel("Actual")
     plt.ylabel("Predicted")
     plt.title("Actual vs Predicted")
-    #plt.show()
+    # plt.show()
     plt.savefig("actual_vs_predicted.png")

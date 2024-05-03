@@ -97,17 +97,27 @@ def gen_soap(crds, chgs, species = ['Br', 'C', 'F', 'H', 'N', 'O', 'S', 'Cl', 'P
     return average_soap.create(molecule)
 
 
-def get_all_spham(CHARGES,COORDINATES, pad=400):
+def get_all_spahm(CHARGES, COORDINATES, pad=200):
+    try:
+        import qml
+    except ImportError:
+        raise ImportError("Please install qml to use this feature")
     X = []
     xyz_file_path = './.tmp.xyz' 
-    for z,r in zip(CHARGES,COORDINATES):
+    # pdb.set_trace()
+    for z,r in tqdm(zip(CHARGES,COORDINATES)):
         # Create a temporary file to write the XYZ data
+
+        Q = [qml.utils.alchemy.ELEMENT_NAME[i] for i in z]
+
         with open(xyz_file_path, "w") as file:
-            file.write(f"{z} {r[0]} {r[1]} {r[2]}\n")
-        pdb.set_trace()
+            file.write(f"{len(Q)}\n")
+            file.write("\n")
+            for q, r_ in zip(Q, r):
+                file.write(f"{q} {r_[0]} {r_[1]} {r_[2]}\n")
+    
         # Load the molecule from the XYZ file
         mol = compound.xyz_to_mol(xyz_file_path, "def2svp", charge=0, spin=0)
-
         X.append(spahm.compute_spahm.get_spahm_representation(mol, "lb")[0])
 
     X = np.array(X)
