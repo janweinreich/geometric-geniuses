@@ -217,7 +217,7 @@ class SmallMolTraj:
 
         data = np.load(f'./.data/{self.molname}.npz')
 
-        indices = np.random.choice(data["R"].shape[0], 5000, replace=False)
+        indices = np.random.choice(data["R"].shape[0], 10000, replace=False)
         self.z = (np.array(list(data["z"]) * data["R"].shape[0])).reshape(
             data["R"].shape[0], -1
         )[indices]
@@ -236,6 +236,7 @@ class SmallMolTraj:
             exit()
 
         X_MBDF   = get_cMBDF(self.z, self.R, local=False)
+        X_MBDF_LOCAL = get_cMBDF(self.z, self.R, local=True)
         X_SLATM  = get_all_slatm(self.z, self.R, local=False)
         X_BOB    = gen_all_bob(self.R, self.z, size=100, asize={"O": 4, "C": 12, "N": 3, "H": 16, "S": 1})
 
