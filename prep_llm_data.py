@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 import bz2, pickle
-from vec2str import ZipFeaturizer
+import json
+import sys
+import numpy as np
 
 compress_fileopener = {True: bz2.BZ2File, False: open}
 
@@ -16,11 +18,22 @@ def loadpkl(filename: str, compress: bool = False):
     input_file.close()
     return obj
 
+def make_json(X, y, filename=None):
+    # Create a list of dictionaries
+    y = np.squeeze(y)
+    data = [
+        {"instruction": "What is the solvation energy of molecule {} in kcal/mol?".format(smiles),
+        "input": smiles,
+        "output": value}
+        for smiles, value in zip(X, y)
+        ]
+    with open(filename, 'w') as file:
+        json.dump(data, file, indent=4)
+
+
 if __name__ == '__main__':
-    data = loadpkl('rep_qm7_rdkit.pkl', compress=True)
-    X_train = data['X_train']
-    y_train = data['y_train']
-    print(X_train[0])
-    converter = ZipFeaturizer()
-    string_reps = converter.bin_vectors(X_train)
-    print(string_reps[0])
+    data_smi = loadpkl("data/rep_delaney_smiles_selfies.pkl", compress=True)
+    X_train_smi, X_test_smi, y_train, y_test = data_smi["X_train"], data_smi["X_test"], data_smi["y_train"], data_smi["y_test"]
+    train_data = make_json(X_train_smi, y_train, filename='train_smi.json')
+    test_data = make_json(X_test_smi, y_test, filename='test_smi.json')
+
