@@ -2,566 +2,566 @@
     {
         "instruction": "What is the solvation energy of molecule c1cc2ccc3cccc4ccc(c1)c2c34 in kcal/mol?",
         "input": "c1cc2ccc3cccc4ccc(c1)c2c34",
-        "output": -1.6011446112145609
+        "output": "-1.6011446112145609"
     },
     {
         "instruction": "What is the solvation energy of molecule Cc1cc(=O)[nH]c(=S)[nH]1 in kcal/mol?",
         "input": "Cc1cc(=O)[nH]c(=S)[nH]1",
-        "output": 0.2084825109465323
+        "output": "0.2084825109465323"
     },
     {
         "instruction": "What is the solvation energy of molecule Oc1ccc(cc1)C2(OC(=O)c3ccccc23)c4ccc(O)cc4  in kcal/mol?",
         "input": "Oc1ccc(cc1)C2(OC(=O)c3ccccc23)c4ccc(O)cc4 ",
-        "output": -0.016027378006073883
+        "output": "-0.016027378006073883"
     },
     {
         "instruction": "What is the solvation energy of molecule c1ccc2c(c1)cc3ccc4cccc5ccc2c3c45 in kcal/mol?",
         "input": "c1ccc2c(c1)cc3ccc4cccc5ccc2c3c45",
-        "output": -2.8219171323943573
+        "output": "-2.8219171323943573"
     },
     {
         "instruction": "What is the solvation energy of molecule C1=Cc2cccc3cccc1c23 in kcal/mol?",
         "input": "C1=Cc2cccc3cccc1c23",
-        "output": -0.5289163484581484
+        "output": "-0.5289163484581484"
     },
     {
         "instruction": "What is the solvation energy of molecule CC1CO1 in kcal/mol?",
         "input": "CC1CO1",
-        "output": 1.101683491564013
+        "output": "1.101683491564013"
     },
     {
         "instruction": "What is the solvation energy of molecule CCN2c1ccccc1N(C)C(=S)c3cccnc23  in kcal/mol?",
         "input": "CCN2c1ccccc1N(C)C(=S)c3cccnc23 ",
-        "output": -0.8898740578517784
+        "output": "-0.8898740578517784"
     },
     {
         "instruction": "What is the solvation energy of molecule CC12CCC3C(CCc4cc(O)ccc34)C2CCC1=O in kcal/mol?",
         "input": "CC12CCC3C(CCc4cc(O)ccc34)C2CCC1=O",
-        "output": -0.5264970608616765
+        "output": "-0.5264970608616765"
     },
     {
         "instruction": "What is the solvation energy of molecule Cn2cc(c1ccccc1)c(=O)c(c2)c3cccc(c3)C(F)(F)F in kcal/mol?",
         "input": "Cn2cc(c1ccccc1)c(=O)c(c2)c3cccc(c3)C(F)(F)F",
-        "output": -0.7635872453159374
+        "output": "-0.7635872453159374"
     },
     {
         "instruction": "What is the solvation energy of molecule ClC(Cl)(Cl)C(NC=O)N1C=CN(C=C1)C(NC=O)C(Cl)(Cl)Cl  in kcal/mol?",
         "input": "ClC(Cl)(Cl)C(NC=O)N1C=CN(C=C1)C(NC=O)C(Cl)(Cl)Cl ",
-        "output": -0.6402035778958629
+        "output": "-0.6402035778958629"
     },
     {
         "instruction": "What is the solvation energy of molecule COc2c1occc1cc3ccc(=O)oc23  in kcal/mol?",
         "input": "COc2c1occc1cc3ccc(=O)oc23 ",
-        "output": -0.38569452274700317
+        "output": "-0.38569452274700317"
     },
     {
         "instruction": "What is the solvation energy of molecule CN2C(=C(O)c1ccccc1S2(=O)=O)C(=O)Nc3ccccn3  in kcal/mol?",
         "input": "CN2C(=C(O)c1ccccc1S2(=O)=O)C(=O)Nc3ccccn3 ",
-        "output": -0.6256878523170305
+        "output": "-0.6256878523170305"
     },
     {
         "instruction": "What is the solvation energy of molecule Cc3cc2nc1c(=O)[nH]c(=O)nc1n(CC(O)C(O)C(O)CO)c2cc3C in kcal/mol?",
         "input": "Cc3cc2nc1c(=O)[nH]c(=O)nc1n(CC(O)C(O)C(O)CO)c2cc3C",
-        "output": -0.39585553065218576
+        "output": "-0.39585553065218576"
     },
     {
         "instruction": "What is the solvation energy of molecule c1ccc(cc1)c2ccc(cc2)c3ccccc3 in kcal/mol?",
         "input": "c1ccc(cc1)c2ccc(cc2)c3ccccc3",
-        "output": -2.05306753423554
+        "output": "-2.05306753423554"
     },
     {
         "instruction": "What is the solvation energy of molecule CC34CC(=O)C1C(CCC2=CC(=O)CCC12C)C3CCC4(=O)  in kcal/mol?",
         "input": "CC34CC(=O)C1C(CCC2=CC(=O)CCC12C)C3CCC4(=O) ",
-        "output": -0.2966647391968317
+        "output": "-0.2966647391968317"
     },
     {
         "instruction": "What is the solvation energy of molecule c1ccc2c(c1)sc3ccccc23 in kcal/mol?",
         "input": "c1ccc2c(c1)sc3ccccc23",
-        "output": -0.7321365065618005
+        "output": "-0.7321365065618005"
     },
     {
         "instruction": "What is the solvation energy of molecule CC23Cc1cnoc1C=C2CCC4C3CCC5(C)C4CCC5(O)C#C in kcal/mol?",
         "input": "CC23Cc1cnoc1C=C2CCC4C3CCC5(C)C4CCC5(O)C#C",
-        "output": -1.2774439308066008
+        "output": "-1.2774439308066008"
     },
     {
         "instruction": "What is the solvation energy of molecule OC(C(=O)c1ccccc1)c2ccccc2 in kcal/mol?",
         "input": "OC(C(=O)c1ccccc1)c2ccccc2",
-        "output": 0.008165497958646526
+        "output": "0.008165497958646526"
     },
     {
         "instruction": "What is the solvation energy of molecule OCC2OC(Oc1ccccc1CO)C(O)C(O)C2O in kcal/mol?",
         "input": "OCC2OC(Oc1ccccc1CO)C(O)C(O)C2O",
-        "output": 0.9758805365474663
+        "output": "0.9758805365474663"
     },
     {
         "instruction": "What is the solvation energy of molecule CC3C2CCC1(C)C=CC(=O)C(=C1C2OC3=O)C in kcal/mol?",
         "input": "CC3C2CCC1(C)C=CC(=O)C(=C1C2OC3=O)C",
-        "output": -0.10796030667201174
+        "output": "-0.10796030667201174"
     },
     {
         "instruction": "What is the solvation energy of molecule O=Cc2ccc1OCOc1c2  in kcal/mol?",
         "input": "O=Cc2ccc1OCOc1c2 ",
-        "output": 0.5984716714978268
+        "output": "0.5984716714978268"
     },
     {
         "instruction": "What is the solvation energy of molecule CC1CCCCC1NC(=O)Nc2ccccc2 in kcal/mol?",
         "input": "CC1CCCCC1NC(=O)Nc2ccccc2",
-        "output": -0.6014949763523101
+        "output": "-0.6014949763523101"
     },
     {
         "instruction": "What is the solvation energy of molecule CC(=O)N(S(=O)c1ccc(N)cc1)c2onc(C)c2C  in kcal/mol?",
         "input": "CC(=O)N(S(=O)c1ccc(N)cc1)c2onc(C)c2C ",
-        "output": -0.3498890663192167
+        "output": "-0.3498890663192167"
     },
     {
         "instruction": "What is the solvation energy of molecule C1N(C(=O)NCC(C)C)C(=O)NC1 in kcal/mol?",
         "input": "C1N(C(=O)NCC(C)C)C(=O)NC1",
-        "output": 0.3468657614647336
+        "output": "0.3468657614647336"
     },
     {
         "instruction": "What is the solvation energy of molecule CNC(=O)Oc1ccccc1C2OCCO2 in kcal/mol?",
         "input": "CNC(=O)Oc1ccccc1C2OCCO2",
-        "output": 0.6275031226554912
+        "output": "0.6275031226554912"
     },
     {
         "instruction": "What is the solvation energy of molecule CC1=C(CCCO1)C(=O)Nc2ccccc2  in kcal/mol?",
         "input": "CC1=C(CCCO1)C(=O)Nc2ccccc2 ",
-        "output": 0.14848417855402543
+        "output": "0.14848417855402543"
     },
     {
         "instruction": "What is the solvation energy of molecule Cn2c(=O)on(c1ccc(Cl)c(Cl)c1)c2=O in kcal/mol?",
         "input": "Cn2c(=O)on(c1ccc(Cl)c(Cl)c1)c2=O",
-        "output": 0.022681223537478944
+        "output": "0.022681223537478944"
     },
     {
         "instruction": "What is the solvation energy of molecule C1Cc2cccc3cccc1c23 in kcal/mol?",
         "input": "C1Cc2cccc3cccc1c23",
-        "output": -0.853100886385403
+        "output": "-0.853100886385403"
     },
     {
         "instruction": "What is the solvation energy of molecule c1ccc2cc3c4cccc5cccc(c3cc2c1)c45 in kcal/mol?",
         "input": "c1ccc2cc3c4cccc5cccc(c3cc2c1)c45",
-        "output": -2.7207909108618256
+        "output": "-2.7207909108618256"
     },
     {
         "instruction": "What is the solvation energy of molecule Nc1cc(nc(N)n1=O)N2CCCCC2  in kcal/mol?",
         "input": "Nc1cc(nc(N)n1=O)N2CCCCC2 ",
-        "output": 0.4247668220711335
+        "output": "0.4247668220711335"
     },
     {
         "instruction": "What is the solvation energy of molecule O=c2c(C3CCCc4ccccc43)c(O)c1ccccc1o2  in kcal/mol?",
         "input": "O=c2c(C3CCCc4ccccc43)c(O)c1ccccc1o2 ",
-        "output": 0.013004073151590736
+        "output": "0.013004073151590736"
     },
     {
         "instruction": "What is the solvation energy of molecule CC(C)C(Nc1ccc(cc1Cl)C(F)(F)F)C(=O)OC(C#N)c2cccc(Oc3ccccc3)c2 in kcal/mol?",
         "input": "CC(C)C(Nc1ccc(cc1Cl)C(F)(F)F)C(=O)OC(C#N)c2cccc(Oc3ccccc3)c2",
-        "output": -2.485152298965448
+        "output": "-2.485152298965448"
     },
     {
         "instruction": "What is the solvation energy of molecule Cc1c(F)c(F)c(COC(=O)C2C(C=C(Cl)C(F)(F)F)C2(C)C)c(F)c1F in kcal/mol?",
         "input": "Cc1c(F)c(F)c(COC(=O)C2C(C=C(Cl)C(F)(F)F)C2(C)C)c(F)c1F",
-        "output": -2.1551614708066604
+        "output": "-2.1551614708066604"
     },
     {
         "instruction": "What is the solvation energy of molecule c2ccc1[nH]nnc1c2 in kcal/mol?",
         "input": "c2ccc1[nH]nnc1c2",
-        "output": 1.0097505628980752
+        "output": "1.0097505628980752"
     },
     {
         "instruction": "What is the solvation energy of molecule c2ccc1ocnc1c2 in kcal/mol?",
         "input": "c2ccc1ocnc1c2",
-        "output": 0.8258847055661994
+        "output": "0.8258847055661994"
     },
     {
         "instruction": "What is the solvation energy of molecule CCOC(=O)c1cncn1C(C)c2ccccc2 in kcal/mol?",
         "input": "CCOC(=O)c1cncn1C(C)c2ccccc2",
-        "output": -0.9039059259113162
+        "output": "-0.9039059259113162"
     },
     {
         "instruction": "What is the solvation energy of molecule CCN2c1ccccc1N(C)C(=O)c3ccccc23  in kcal/mol?",
         "input": "CCN2c1ccccc1N(C)C(=O)c3ccccc23 ",
-        "output": -0.9106799311814378
+        "output": "-0.9106799311814378"
     },
     {
         "instruction": "What is the solvation energy of molecule OCC(O)COC(=O)c1ccccc1Nc2ccnc3cc(Cl)ccc23 in kcal/mol?",
         "input": "OCC(O)COC(=O)c1ccccc1Nc2ccnc3cc(Cl)ccc23",
-        "output": -0.8245532927470332
+        "output": "-0.8245532927470332"
     },
     {
         "instruction": "What is the solvation energy of molecule OCC1OC(OC2C(O)C(O)C(O)OC2CO)C(O)C(O)C1O in kcal/mol?",
         "input": "OCC1OC(OC2C(O)C(O)C(O)OC2CO)C(O)C(O)C1O",
-        "output": 1.2690981932398788
+        "output": "1.2690981932398788"
     },
     {
         "instruction": "What is the solvation energy of molecule CC34CCc1c(ccc2cc(O)ccc12)C3CCC4=O in kcal/mol?",
         "input": "CC34CCc1c(ccc2cc(O)ccc12)C3CCC4=O",
-        "output": -1.1482539731549932
+        "output": "-1.1482539731549932"
     },
     {
         "instruction": "What is the solvation energy of molecule ClC1=C(Cl)C(Cl)(C(=C1Cl)Cl)C2(Cl)C(=C(Cl)C(=C2Cl)Cl)Cl in kcal/mol?",
         "input": "ClC1=C(Cl)C(Cl)(C(=C1Cl)Cl)C2(Cl)C(=C(Cl)C(=C2Cl)Cl)Cl",
-        "output": -2.134355597477
+        "output": "-2.134355597477"
     },
     {
         "instruction": "What is the solvation energy of molecule ClC1(C(=O)C2(Cl)C3(Cl)C14Cl)C5(Cl)C2(Cl)C3(Cl)C(Cl)(Cl)C45Cl in kcal/mol?",
         "input": "ClC1(C(=O)C2(Cl)C3(Cl)C14Cl)C5(Cl)C2(Cl)C3(Cl)C(Cl)(Cl)C45Cl",
-        "output": -1.157447266021587
+        "output": "-1.157447266021587"
     },
     {
         "instruction": "What is the solvation energy of molecule Oc1ccc(c(O)c1)c3oc2cc(O)cc(O)c2c(=O)c3O  in kcal/mol?",
         "input": "Oc1ccc(c(O)c1)c3oc2cc(O)cc(O)c2c(=O)c3O ",
-        "output": -0.10457330403695103
+        "output": "-0.10457330403695103"
     },
     {
         "instruction": "What is the solvation energy of molecule C1SC(=S)NC1(=O) in kcal/mol?",
         "input": "C1SC(=S)NC1(=O)",
-        "output": 0.5307316187966092
+        "output": "0.5307316187966092"
     },
     {
         "instruction": "What is the solvation energy of molecule ClC(Cl)C(Cl)(Cl)SN2C(=O)C1CC=CCC1C2=O  in kcal/mol?",
         "input": "ClC(Cl)C(Cl)(Cl)SN2C(=O)C1CC=CCC1C2=O ",
-        "output": -1.2256711762420989
+        "output": "-1.2256711762420989"
     },
     {
         "instruction": "What is the solvation energy of molecule ClC1=C(Cl)C2(Cl)C3C4CC(C=C4)C3C1(Cl)C2(Cl)Cl in kcal/mol?",
         "input": "ClC1=C(Cl)C2(Cl)C3C4CC(C=C4)C3C1(Cl)C2(Cl)Cl",
-        "output": -1.6645299462421288
+        "output": "-1.6645299462421288"
     },
     {
         "instruction": "What is the solvation energy of molecule CC(=O)Nc1nnc(s1)S(N)(=O)=O  in kcal/mol?",
         "input": "CC(=O)Nc1nnc(s1)S(N)(=O)=O ",
-        "output": 0.2452556824129075
+        "output": "0.2452556824129075"
     },
     {
         "instruction": "What is the solvation energy of molecule CC1=C(SCCO1)C(=O)Nc2ccccc2 in kcal/mol?",
         "input": "CC1=C(SCCO1)C(=O)Nc2ccccc2",
-        "output": -0.13215318263673237
+        "output": "-0.13215318263673237"
     },
     {
         "instruction": "What is the solvation energy of molecule CN(C(=O)COc1nc2ccccc2s1)c3ccccc3 in kcal/mol?",
         "input": "CN(C(=O)COc1nc2ccccc2s1)c3ccccc3",
-        "output": -0.9706782635739448
+        "output": "-0.9706782635739448"
     },
     {
         "instruction": "What is the solvation energy of molecule CN(C(=O)NC(C)(C)c1ccccc1)c2ccccc2 in kcal/mol?",
         "input": "CN(C(=O)NC(C)(C)c1ccccc1)c2ccccc2",
-        "output": -0.23376326168855843
+        "output": "-0.23376326168855843"
     },
     {
         "instruction": "What is the solvation energy of molecule Nc1nccs1  in kcal/mol?",
         "input": "Nc1nccs1 ",
-        "output": 1.2129707210017273
+        "output": "1.2129707210017273"
     },
     {
         "instruction": "What is the solvation energy of molecule CN(C=Nc1ccc(C)cc1C)C=Nc2ccc(C)cc2C in kcal/mol?",
         "input": "CN(C=Nc1ccc(C)cc1C)C=Nc2ccc(C)cc2C",
-        "output": -1.2595412025927073
+        "output": "-1.2595412025927073"
     },
     {
         "instruction": "What is the solvation energy of molecule OCC(O)C2OC1OC(OC1C2O)C(Cl)(Cl)Cl  in kcal/mol?",
         "input": "OCC(O)C2OC1OC(OC1C2O)C(Cl)(Cl)Cl ",
-        "output": 0.49686159244600053
+        "output": "0.49686159244600053"
     },
     {
         "instruction": "What is the solvation energy of molecule Nc3nc(N)c2nc(c1ccccc1)c(N)nc2n3 in kcal/mol?",
         "input": "Nc3nc(N)c2nc(c1ccccc1)c(N)nc2n3",
-        "output": 0.22396595156395344
+        "output": "0.22396595156395344"
     },
     {
         "instruction": "What is the solvation energy of molecule CC2Nc1cc(Cl)c(cc1C(=O)N2c3ccccc3C)S(N)(=O)=O  in kcal/mol?",
         "input": "CC2Nc1cc(Cl)c(cc1C(=O)N2c3ccccc3C)S(N)(=O)=O ",
-        "output": -0.44182199498515456
+        "output": "-0.44182199498515456"
     },
     {
         "instruction": "What is the solvation energy of molecule CN1CC(O)N(C1=O)c2nnc(s2)C(C)(C)C in kcal/mol?",
         "input": "CN1CC(O)N(C1=O)c2nnc(s2)C(C)(C)C",
-        "output": 0.47895886423210743
+        "output": "0.47895886423210743"
     },
     {
         "instruction": "What is the solvation energy of molecule CCC1(C(=O)NC(=O)NC1=O)C2=CCC3CCC2C3 in kcal/mol?",
         "input": "CCC1(C(=O)NC(=O)NC1=O)C2=CCC3CCC2C3",
-        "output": 0.08267955592998562
+        "output": "0.08267955592998562"
     },
     {
         "instruction": "What is the solvation energy of molecule CCC(C)C(=O)OC2CC(C)C=C3C=CC(C)C(CCC1CC(O)CC(=O)O1)C23  in kcal/mol?",
         "input": "CCC(C)C(=O)OC2CC(C)C=C3C=CC(C)C(CCC1CC(O)CC(=O)O1)C23 ",
-        "output": -1.5184049754152167
+        "output": "-1.5184049754152167"
     },
     {
         "instruction": "What is the solvation energy of molecule CC2Cc1ccccc1N2NC(=O)c3ccc(Cl)c(c3)S(N)(=O)=O  in kcal/mol?",
         "input": "CC2Cc1ccccc1N2NC(=O)c3ccc(Cl)c(c3)S(N)(=O)=O ",
-        "output": -0.3479536362420393
+        "output": "-0.3479536362420393"
     },
     {
         "instruction": "What is the solvation energy of molecule o1c2ccccc2c3ccccc13 in kcal/mol?",
         "input": "o1c2ccccc2c3ccccc13",
-        "output": -0.8385851608065706
+        "output": "-0.8385851608065706"
     },
     {
         "instruction": "What is the solvation energy of molecule O=C(Nc1ccccc1)Nc2ccccc2 in kcal/mol?",
         "input": "O=C(Nc1ccccc1)Nc2ccccc2",
-        "output": -0.13699175782967637
+        "output": "-0.13699175782967637"
     },
     {
         "instruction": "What is the solvation energy of molecule c1ccc2c(c1)c3cccc4c3c2cc5ccccc54 in kcal/mol?",
         "input": "c1ccc2c(c1)c3cccc4c3c2cc5ccccc54",
-        "output": -2.594987955845279
+        "output": "-2.594987955845279"
     },
     {
         "instruction": "What is the solvation energy of molecule COc1ccc(cc1)C(O)(C2CC2)c3cncnc3  in kcal/mol?",
         "input": "COc1ccc(cc1)C(O)(C2CC2)c3cncnc3 ",
-        "output": 0.13106530785942666
+        "output": "0.13106530785942666"
     },
     {
         "instruction": "What is the solvation energy of molecule c1cnc2c(c1)ccc3ncccc23 in kcal/mol?",
         "input": "c1cnc2c(c1)ccc3ncccc23",
-        "output": 0.09042127623869618
+        "output": "0.09042127623869618"
     },
     {
         "instruction": "What is the solvation energy of molecule OCC1OC(CO)(OC2OC(COC3OC(CO)C(O)C(O)C3O)C(O)C(O)C2O)C(O)C1O in kcal/mol?",
         "input": "OCC1OC(CO)(OC2OC(COC3OC(CO)C(O)C(O)C3O)C(O)C(O)C2O)C(O)C1O",
-        "output": 1.1887778450370068
+        "output": "1.1887778450370068"
     },
     {
         "instruction": "What is the solvation energy of molecule CCOC(=O)c1ccccc1S(=O)(=O)NN(C=O)c2nc(Cl)cc(OC)n2 in kcal/mol?",
         "input": "CCOC(=O)c1ccccc1S(=O)(=O)NN(C=O)c2nc(Cl)cc(OC)n2",
-        "output": -0.8269725803435052
+        "output": "-0.8269725803435052"
     },
     {
         "instruction": "What is the solvation energy of molecule CC34CCC1C(=CCc2cc(O)ccc12)C3CCC4=O in kcal/mol?",
         "input": "CC34CCC1C(=CCc2cc(O)ccc12)C3CCC4=O",
-        "output": -1.1685759889653584
+        "output": "-1.1685759889653584"
     },
     {
         "instruction": "What is the solvation energy of molecule CN(C)C(=O)Oc1cc(C)nn1c2ccccc2 in kcal/mol?",
         "input": "CN(C)C(=O)Oc1cc(C)nn1c2ccccc2",
-        "output": 0.37589721262239817
+        "output": "0.37589721262239817"
     },
     {
         "instruction": "What is the solvation energy of molecule OC(Cn1cncn1)(c2ccc(F)cc2)c3ccccc3F in kcal/mol?",
         "input": "OC(Cn1cncn1)(c2ccc(F)cc2)c3ccccc3F",
-        "output": -0.24344041207444664
+        "output": "-0.24344041207444664"
     },
     {
         "instruction": "What is the solvation energy of molecule Cc1c2ccccc2c(C)c3ccc4ccccc4c13 in kcal/mol?",
         "input": "Cc1c2ccccc2c(C)c3ccc4ccccc4c13",
-        "output": -2.009520357499043
+        "output": "-2.009520357499043"
     },
     {
         "instruction": "What is the solvation energy of molecule Cc3nnc4CN=C(c1ccccc1Cl)c2cc(Cl)ccc2n34 in kcal/mol?",
         "input": "Cc3nnc4CN=C(c1ccccc1Cl)c2cc(Cl)ccc2n34",
-        "output": -0.5918178259664216
+        "output": "-0.5918178259664216"
     },
     {
         "instruction": "What is the solvation energy of molecule Cc3ccnc4N(C1CC1)c2ncccc2C(=O)Nc34  in kcal/mol?",
         "input": "Cc3ccnc4N(C1CC1)c2ncccc2C(=O)Nc34 ",
-        "output": -0.1563460586014528
+        "output": "-0.1563460586014528"
     },
     {
         "instruction": "What is the solvation energy of molecule c1cc2cccc3c4cccc5cccc(c(c1)c23)c54 in kcal/mol?",
         "input": "c1cc2cccc3c4cccc5cccc(c(c1)c23)c54",
-        "output": -2.8727221719202705
+        "output": "-2.8727221719202705"
     },
     {
         "instruction": "What is the solvation energy of molecule COc1cc(cc(OC)c1O)C6C2C(COC2=O)C(OC4OC3COC(C)OC3C(O)C4O)c7cc5OCOc5cc67 in kcal/mol?",
         "input": "COc1cc(cc(OC)c1O)C6C2C(COC2=O)C(OC4OC3COC(C)OC3C(O)C4O)c7cc5OCOc5cc67",
-        "output": -0.3406957734526231
+        "output": "-0.3406957734526231"
     },
     {
         "instruction": "What is the solvation energy of molecule O=c1[nH]cnc2nc[nH]c12  in kcal/mol?",
         "input": "O=c1[nH]cnc2nc[nH]c12 ",
-        "output": 0.2762225636477498
+        "output": "0.2762225636477498"
     },
     {
         "instruction": "What is the solvation energy of molecule C1C(O)CCC2(C)CC3CCC4(C)C5(C)CC6OCC(C)CC6OC5CC4C3C=C21 in kcal/mol?",
         "input": "C1C(O)CCC2(C)CC3CCC4(C)C5(C)CC6OCC(C)CC6OC5CC4C3C=C21",
-        "output": -2.154677613287366
+        "output": "-2.154677613287366"
     },
     {
         "instruction": "What is the solvation energy of molecule Cc1ccccc1n3c(C)nc2ccccc2c3=O in kcal/mol?",
         "input": "Cc1ccccc1n3c(C)nc2ccccc2c3=O",
-        "output": -0.028123815988434088
+        "output": "-0.028123815988434088"
     },
     {
         "instruction": "What is the solvation energy of molecule CCOc1ccc(cc1)C(C)(C)COCc3cccc(Oc2ccccc2)c3 in kcal/mol?",
         "input": "CCOc1ccc(cc1)C(C)(C)COCc3cccc(Oc2ccccc2)c3",
-        "output": -2.7740152379842105
+        "output": "-2.7740152379842105"
     },
     {
         "instruction": "What is the solvation energy of molecule CCC1(CCC(=O)NC1=O)c2ccccc2  in kcal/mol?",
         "input": "CCC1(CCC(=O)NC1=O)c2ccccc2 ",
-        "output": 0.2563844053566788
+        "output": "0.2563844053566788"
     },
     {
         "instruction": "What is the solvation energy of molecule CC1CC(C)C(=O)C(C1)C(O)CC2CC(=O)NC(=O)C2  in kcal/mol?",
         "input": "CC1CC(C)C(=O)C(C1)C(O)CC2CC(=O)NC(=O)C2 ",
-        "output": 0.8404004311450317
+        "output": "0.8404004311450317"
     },
     {
         "instruction": "What is the solvation energy of molecule CC(=O)C3CCC4C2CC=C1CC(O)CCC1(C)C2CCC34C  in kcal/mol?",
         "input": "CC(=O)C3CCC4C2CC=C1CC(O)CCC1(C)C2CCC34C ",
-        "output": -0.8627780367712915
+        "output": "-0.8627780367712915"
     },
     {
         "instruction": "What is the solvation energy of molecule Cc1ccc(OP(=O)(Oc2cccc(C)c2)Oc3ccccc3C)cc1 in kcal/mol?",
         "input": "Cc1ccc(OP(=O)(Oc2cccc(C)c2)Oc3ccccc3C)cc1",
-        "output": -1.5208242630116886
+        "output": "-1.5208242630116886"
     },
     {
         "instruction": "What is the solvation energy of molecule CSc1nnc(c(=O)n1N)C(C)(C)C in kcal/mol?",
         "input": "CSc1nnc(c(=O)n1N)C(C)(C)C",
-        "output": 0.2970284369774092
+        "output": "0.2970284369774092"
     },
     {
         "instruction": "What is the solvation energy of molecule Nc1ncnc2n(ccc12)C3OC(CO)C(O)C3O  in kcal/mol?",
         "input": "Nc1ncnc2n(ccc12)C3OC(CO)C(O)C3O ",
-        "output": 0.4436372653236155
+        "output": "0.4436372653236155"
     },
     {
         "instruction": "What is the solvation energy of molecule O=C2NC(=O)C1(CC1)C(=O)N2  in kcal/mol?",
         "input": "O=C2NC(=O)C1(CC1)C(=O)N2 ",
-        "output": 0.4746041465584578
+        "output": "0.4746041465584578"
     },
     {
         "instruction": "What is the solvation energy of molecule C1Cc2ccccc2C1 in kcal/mol?",
         "input": "C1Cc2ccccc2C1",
-        "output": -0.08376743070729133
+        "output": "-0.08376743070729133"
     },
     {
         "instruction": "What is the solvation energy of molecule c1ccc2cnccc2c1 in kcal/mol?",
         "input": "c1ccc2cnccc2c1",
-        "output": 0.6855660249708205
+        "output": "0.6855660249708205"
     },
     {
         "instruction": "What is the solvation energy of molecule OCC1OC(C(O)C1O)n2cnc3c(O)ncnc23 in kcal/mol?",
         "input": "OCC1OC(C(O)C1O)n2cnc3c(O)ncnc23",
-        "output": 0.7920146792155907
+        "output": "0.7920146792155907"
     },
     {
         "instruction": "What is the solvation energy of molecule c2(Cl)c(Cl)c(Cl)c1nccnc1c2(Cl)  in kcal/mol?",
         "input": "c2(Cl)c(Cl)c(Cl)c1nccnc1c2(Cl) ",
-        "output": -1.2401869018209308
+        "output": "-1.2401869018209308"
     },
     {
         "instruction": "What is the solvation energy of molecule C1OC1c2ccccc2  in kcal/mol?",
         "input": "C1OC1c2ccccc2 ",
-        "output": 0.612987397076659
+        "output": "0.612987397076659"
     },
     {
         "instruction": "What is the solvation energy of molecule CCC(=C(CC)c1ccc(O)cc1)c2ccc(O)cc2  in kcal/mol?",
         "input": "CCC(=C(CC)c1ccc(O)cc1)c2ccc(O)cc2 ",
-        "output": -0.5821406755805336
+        "output": "-0.5821406755805336"
     },
     {
         "instruction": "What is the solvation energy of molecule c1ccc2c(c1)c3cccc4cccc2c34 in kcal/mol?",
         "input": "c1ccc2c(c1)c3cccc4cccc2c34",
-        "output": -1.5159856878187448
+        "output": "-1.5159856878187448"
     },
     {
         "instruction": "What is the solvation energy of molecule CC(C)C(C(=O)OC(C#N)c1cccc(Oc2ccccc2)c1)c3ccc(OC(F)F)cc3 in kcal/mol?",
         "input": "CC(C)C(C(=O)OC(C#N)c1cccc(Oc2ccccc2)c1)c3ccc(OC(F)F)cc3",
-        "output": -1.9398448747206478
+        "output": "-1.9398448747206478"
     },
     {
         "instruction": "What is the solvation energy of molecule CCCC1COC(Cn2cncn2)(O1)c3ccc(Cl)cc3Cl in kcal/mol?",
         "input": "CCCC1COC(Cn2cncn2)(O1)c3ccc(Cl)cc3Cl",
-        "output": -0.30295488694765915
+        "output": "-0.30295488694765915"
     },
     {
         "instruction": "What is the solvation energy of molecule O=C2CN(N=Cc1ccc(o1)N(=O)=O)C(=O)N2  in kcal/mol?",
         "input": "O=C2CN(N=Cc1ccc(o1)N(=O)=O)C(=O)N2 ",
-        "output": -0.24827898726739064
+        "output": "-0.24827898726739064"
     },
     {
         "instruction": "What is the solvation energy of molecule NC(=O)c1cnccn1 in kcal/mol?",
         "input": "NC(=O)c1cnccn1",
-        "output": 1.0644264625783433
+        "output": "1.0644264625783433"
     },
     {
         "instruction": "What is the solvation energy of molecule OC4=C(C1CCC(CC1)c2ccc(Cl)cc2)C(=O)c3ccccc3C4=O in kcal/mol?",
         "input": "OC4=C(C1CCC(CC1)c2ccc(Cl)cc2)C(=O)c3ccccc3C4=O",
-        "output": -1.4825995189874304
+        "output": "-1.4825995189874304"
     },
     {
         "instruction": "What is the solvation energy of molecule O=C(Cn1ccnc1N(=O)=O)NCc2ccccc2 in kcal/mol?",
         "input": "O=C(Cn1ccnc1N(=O)=O)NCc2ccccc2",
-        "output": 0.02751979873042294
+        "output": "0.02751979873042294"
     },
     {
         "instruction": "What is the solvation energy of molecule CCC1(C(=O)NC(=O)NC1=O)C2=CCCCC2  in kcal/mol?",
         "input": "CCC1(C(=O)NC(=O)NC1=O)C2=CCCCC2 ",
-        "output": 0.33718861107884535
+        "output": "0.33718861107884535"
     },
     {
         "instruction": "What is the solvation energy of molecule COC(=O)C1=C(C)NC(=C(C1c2ccccc2N(=O)=O)C(=O)OC)C  in kcal/mol?",
         "input": "COC(=O)C1=C(C)NC(=C(C1c2ccccc2N(=O)=O)C(=O)OC)C ",
-        "output": -0.9160023638936763
+        "output": "-0.9160023638936763"
     },
     {
         "instruction": "What is the solvation energy of molecule O=C2NC(=O)C1(CCC1)C(=O)N2 in kcal/mol?",
         "input": "O=C2NC(=O)C1(CCC1)C(=O)N2",
-        "output": 0.5863752335154664
+        "output": "0.5863752335154664"
     },
     {
         "instruction": "What is the solvation energy of molecule CCCOP(=S)(OCCC)SCC(=O)N1CCCCC1C in kcal/mol?",
         "input": "CCCOP(=S)(OCCC)SCC(=O)N1CCCCC1C",
-        "output": -0.6208492771240866
+        "output": "-0.6208492771240866"
     },
     {
         "instruction": "What is the solvation energy of molecule N(c1ccccc1)c2ccccc2 in kcal/mol?",
         "input": "N(c1ccccc1)c2ccccc2",
-        "output": -0.3082773196598975
+        "output": "-0.3082773196598975"
     },
     {
         "instruction": "What is the solvation energy of molecule ClC(Cl)=C(c1ccc(Cl)cc1)c2ccc(Cl)cc2 in kcal/mol?",
         "input": "ClC(Cl)=C(c1ccc(Cl)cc1)c2ccc(Cl)cc2",
-        "output": -1.951457455183714
+        "output": "-1.951457455183714"
     },
     {
         "instruction": "What is the solvation energy of molecule O=c2[nH]c1CCCc1c(=O)n2C3CCCCC3 in kcal/mol?",
         "input": "O=c2[nH]c1CCCc1c(=O)n2C3CCCCC3",
-        "output": -0.835682015690804
+        "output": "-0.835682015690804"
     },
     {
         "instruction": "What is the solvation energy of molecule CCC1(C(=O)NCNC1=O)c2ccccc2 in kcal/mol?",
         "input": "CCC1(C(=O)NCNC1=O)c2ccccc2",
-        "output": 0.1097755770104726
+        "output": "0.1097755770104726"
     },
     {
         "instruction": "What is the solvation energy of molecule O=C1CCCN1 in kcal/mol?",
         "input": "O=C1CCCN1",
-        "output": 1.9048869735927334
+        "output": "1.9048869735927334"
     },
     {
         "instruction": "What is the solvation energy of molecule COc5cc4OCC3Oc2c1CC(Oc1ccc2C(=O)C3c4cc5OC)C(C)=C  in kcal/mol?",
         "input": "COc5cc4OCC3Oc2c1CC(Oc1ccc2C(=O)C3c4cc5OC)C(C)=C ",
-        "output": -0.751490807333577
+        "output": "-0.751490807333577"
     },
     {
         "instruction": "What is the solvation energy of molecule ClC4=C(Cl)C5(Cl)C3C1CC(C2OC12)C3C4(Cl)C5(Cl)Cl in kcal/mol?",
         "input": "ClC4=C(Cl)C5(Cl)C3C1CC(C2OC12)C3C4(Cl)C5(Cl)Cl",
-        "output": -1.6563043684141237
+        "output": "-1.6563043684141237"
     },
     {
         "instruction": "What is the solvation energy of molecule c1ccsc1 in kcal/mol?",
         "input": "c1ccsc1",
-        "output": 0.7436289272861496
+        "output": "0.7436289272861496"
     },
     {
         "instruction": "What is the solvation energy of molecule c1ccc2c(c1)ccc3c2ccc4c5ccccc5ccc43 in kcal/mol?",
         "input": "c1ccc2c(c1)ccc3c2ccc4c5ccccc5ccc43",
-        "output": -2.420799248899291
+        "output": "-2.420799248899291"
     },
     {
         "instruction": "What is the solvation energy of molecule Cc1occc1C(=O)Nc2ccccc2 in kcal/mol?",
         "input": "Cc1occc1C(=O)Nc2ccccc2",
-        "output": -0.20957038572383782
+        "output": "-0.20957038572383782"
     },
     {
         "instruction": "What is the solvation energy of molecule OCC3OC(OCC2OC(OC(C#N)c1ccccc1)C(O)C(O)C2O)C(O)C(O)C3O  in kcal/mol?",
         "input": "OCC3OC(OCC2OC(OC(C#N)c1ccccc1)C(O)C(O)C2O)C(O)C(O)C3O ",
-        "output": 1.0145891380910192
+        "output": "1.0145891380910192"
     }
 ]

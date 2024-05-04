@@ -24,7 +24,7 @@ def make_json(X, y, filename=None):
     data = [
         {"instruction": "What is the solvation energy of molecule {} in kcal/mol?".format(smiles),
         "input": smiles,
-        "output": value}
+        "output": str(value)}
         for smiles, value in zip(X, y)
         ]
     with open(filename, 'w') as file:
