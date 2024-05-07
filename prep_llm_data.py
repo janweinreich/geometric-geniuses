@@ -22,9 +22,9 @@ def make_json(X, y, filename=None):
     # Create a list of dictionaries
     y = np.squeeze(y)
     data = [
-        {"instruction": "What is the solvation energy of molecule {} in kcal/mol?".format(smiles),
+        {"instruction": "What is the atomization energy of a molecule with SMILES {} in kcal/mol?".format(smiles),
         "input": smiles,
-        "output": str(value)}
+        "output": str(round(value, 2))}
         for smiles, value in zip(X, y)
         ]
     with open(filename, 'w') as file:
@@ -32,8 +32,8 @@ def make_json(X, y, filename=None):
 
 
 if __name__ == '__main__':
-    data_smi = loadpkl("data/rep_delaney_smiles_selfies.pkl", compress=True)
+    data_smi = loadpkl("data/rep_qm7_smiles_selfies.pkl", compress=True)
     X_train_smi, X_test_smi, y_train, y_test = data_smi["X_train"], data_smi["X_test"], data_smi["y_train"], data_smi["y_test"]
-    train_data = make_json(X_train_smi, y_train, filename='train_smi.json')
-    test_data = make_json(X_test_smi, y_test, filename='test_smi.json')
+    train_data = make_json(X_train_smi, y_train, filename='qm7_train_smi.json')
+    test_data = make_json(X_test_smi, y_test, filename='qm7_test_smi.json')
 
