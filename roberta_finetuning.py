@@ -10,6 +10,21 @@ import pdb
 from vec2str import ZipFeaturizer
 import json
 
+
+class MoleculeDataset(Dataset):
+    def __init__(self, data, tokenizer):
+        self.encodings = tokenizer([d['input'] for d in data], truncation=True, padding=True, max_length=512)
+        self.labels = [float(d['output']) for d in data]
+
+    def __getitem__(self, idx):
+        item = {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
+        item['labels'] = torch.tensor(self.labels[idx], dtype=torch.float32)
+        return item
+
+    def __len__(self):
+        return len(self.labels)
+
+
 def write_data_to_json(X_train, y_train, filename):
     # Initialize the list that will hold all data entries
     data = []
@@ -66,18 +81,7 @@ if __name__ == "__main__":
     # Split the data into training and test sets (modify as needed if already split)
     train_data, test_data = train_test_split(data, test_size=0.2, random_state=42)
 
-    class MoleculeDataset(Dataset):
-        def __init__(self, data, tokenizer):
-            self.encodings = tokenizer([d['input'] for d in data], truncation=True, padding=True, max_length=512)
-            self.labels = [float(d['output']) for d in data]
 
-        def __getitem__(self, idx):
-            item = {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
-            item['labels'] = torch.tensor(self.labels[idx], dtype=torch.float32)
-            return item
-
-        def __len__(self):
-            return len(self.labels)
 
     tokenizer = RobertaTokenizer.from_pretrained('roberta-base')
     train_dataset = MoleculeDataset(train_data, tokenizer)
@@ -104,15 +108,15 @@ if __name__ == "__main__":
     else:
         device = torch.device("cpu")
     model = RobertaForRegression().to(device)
-    optimizer = AdamW(model.parameters(), lr=1e-4)
+    optimizer = AdamW(model.parameters(), lr=1e-6)
 
     # DataLoader setup
-    train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
-    test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
+    train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
+    test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
 
     # Training loop
     model.train()
-    for epoch in range(30):  # Number of epochs
+    for epoch in range(1):  # Number of epochs
         for batch in train_loader:
             optimizer.zero_grad()
             inputs, labels = batch['input_ids'].to(device), batch['labels'].to(device)
