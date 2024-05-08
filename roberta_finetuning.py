@@ -55,8 +55,8 @@ if __name__ == "__main__":
     if do_small:
 
         data = loadpkl("data/rep_ethanol.pkl", compress=True)
-
-        X = data["cMBDF"]
+        #pdb.set_trace()
+        X = data["cMBDF_trans"]
         y = data["y"]
         y_min = np.min(y)
         y+=-y_min 
@@ -71,7 +71,7 @@ if __name__ == "__main__":
 
         write_data_to_json(X_train, y_train, 'ethanol_train_smi.json')
         write_data_to_json(X_test, y_test, 'ethanol_test_smi.json')
-        #
+
         data = load_data('ethanol_train_smi.json')
     
     else:

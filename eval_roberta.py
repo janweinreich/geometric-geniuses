@@ -29,7 +29,7 @@ def load_data(filepath):
         data = json.load(file)
     return data
 
-data = load_data('qm7_test_smi.json')
+data = load_data('ethanol_test_smi.json')
 _, test_data = train_test_split(data, test_size=0.2, random_state=42)  # Assuming you use the same split
 
 class MoleculeDataset(Dataset):
@@ -73,7 +73,6 @@ print(f'R² Score: {r2}')
 # Scatter plot of actual vs predicted values
 plt.figure(figsize=(10, 6))
 plt.scatter(actuals, predictions, color='blue', alpha=0.5)
-plt.title('Actual vs. Predicted Solvation Energies')
 plt.xlabel('Actual Energy')
 plt.ylabel('Predicted Energy')
 plt.grid(True)
