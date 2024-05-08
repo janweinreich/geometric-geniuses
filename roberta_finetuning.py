@@ -4,7 +4,7 @@ from torch import nn
 from torch.utils.data import Dataset, DataLoader
 from transformers import RobertaTokenizer, RobertaModel, AdamW
 from sklearn.model_selection import train_test_split
-
+import pdb
 # Load data from JSON file
 def load_data(filepath):
     with open(filepath, 'r') as file:
@@ -12,7 +12,7 @@ def load_data(filepath):
     return data
 
 # Assuming the filepath to your JSON file
-data = load_data('train_smi.json')
+data = load_data('qm7_train_smi.json')
 
 # Split the data into training and test sets (modify as needed if already split)
 train_data, test_data = train_test_split(data, test_size=0.2, random_state=42)
@@ -63,7 +63,7 @@ test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
 
 # Training loop
 model.train()
-for epoch in range(20):  # Number of epochs
+for epoch in range(30):  # Number of epochs
     for batch in train_loader:
         optimizer.zero_grad()
         inputs, labels = batch['input_ids'].to(device), batch['labels'].to(device)

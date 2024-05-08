@@ -30,7 +30,7 @@ def load_data(filepath):
         data = json.load(file)
     return data
 
-data = load_data('test_smi.json')
+data = load_data('qm7_test_smi.json')
 _, test_data = train_test_split(data, test_size=0.2, random_state=42)  # Assuming you use the same split
 
 class MoleculeDataset(Dataset):

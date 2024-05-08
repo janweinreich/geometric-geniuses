@@ -166,7 +166,7 @@ if __name__ == "__main__":
     do_small = False
     
 
-    converter = ZipFeaturizer(n_bins=700)
+    converter = ZipFeaturizer(n_bins=200)
 
     if do_small:
         
