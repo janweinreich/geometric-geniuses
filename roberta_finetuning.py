@@ -12,7 +12,7 @@ def load_data(filepath):
     return data
 
 # Assuming the filepath to your JSON file
-data = load_data('qm7_train_smi.json')
+data = load_data('train_smi.json')
 
 # Split the data into training and test sets (modify as needed if already split)
 train_data, test_data = train_test_split(data, test_size=0.2, random_state=42)
@@ -48,22 +48,22 @@ class RobertaForRegression(nn.Module):
         return logits
 
 # Set device: Apple/NVIDIA/CPU
-#if torch.backends.mps.is_available():
-#    device = torch.device("mps")
-#elif torch.cuda.is_available():
-#    device = torch.device("cuda")
-#else:
-device = torch.device("cpu")
+if torch.backends.mps.is_available():
+    device = torch.device("mps")
+elif torch.cuda.is_available():
+    device = torch.device("cuda")
+else:
+    device = torch.device("cpu")
 model = RobertaForRegression().to(device)
-optimizer = AdamW(model.parameters(), lr=1e-7)
+optimizer = AdamW(model.parameters(), lr=1e-4)
 
 # DataLoader setup
-train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
-test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
+train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
 
 # Training loop
 model.train()
-for epoch in range(3):  # Number of epochs
+for epoch in range(20):  # Number of epochs
     for batch in train_loader:
         optimizer.zero_grad()
         inputs, labels = batch['input_ids'].to(device), batch['labels'].to(device)

@@ -6,6 +6,23 @@ from sklearn.metrics import r2_score
 import matplotlib.pyplot as plt
 import json
 from sklearn.model_selection import train_test_split
+from torch.utils.data import Dataset, DataLoader
+from transformers import RobertaTokenizer, RobertaModel
+
+
+class RobertaForRegression(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.roberta = RobertaModel.from_pretrained('roberta-base')
+        self.regression_head = nn.Linear(self.roberta.config.hidden_size, 1)
+
+    def forward(self, input_ids, attention_mask):
+        outputs = self.roberta(input_ids=input_ids, attention_mask=attention_mask)
+        sequence_output = outputs.last_hidden_state[:, 0, :]
+        logits = self.regression_head(sequence_output)
+        return logits
+
+
 
 # Load data from JSON
 def load_data(filepath):
@@ -13,7 +30,7 @@ def load_data(filepath):
         data = json.load(file)
     return data
 
-data = load_data('qm7_train_smi.json')
+data = load_data('test_smi.json')
 _, test_data = train_test_split(data, test_size=0.2, random_state=42)  # Assuming you use the same split
 
 class MoleculeDataset(Dataset):
@@ -61,5 +78,6 @@ plt.title('Actual vs. Predicted Solvation Energies')
 plt.xlabel('Actual Energy')
 plt.ylabel('Predicted Energy')
 plt.grid(True)
+plt.savefig('actual_vs_predicted.png')
 plt.show()
 
