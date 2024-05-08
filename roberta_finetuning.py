@@ -9,7 +9,7 @@ import numpy as np
 import pdb
 from vec2str import ZipFeaturizer
 import json
-
+import os
 
 class MoleculeDataset(Dataset):
     def __init__(self, data, tokenizer):
@@ -111,8 +111,8 @@ if __name__ == "__main__":
     optimizer = AdamW(model.parameters(), lr=1e-6)
 
     # DataLoader setup
-    train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
-    test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
+    train_loader = DataLoader(train_dataset, batch_size=4, shuffle=True)
+    test_loader = DataLoader(test_dataset, batch_size=4, shuffle=False)
 
     # Training loop
     model.train()
@@ -140,7 +140,7 @@ if __name__ == "__main__":
         print(f"Test Loss: {total_loss / len(test_loader)}")
 
 
-    import os
+    
 
     # Save model and optimizer state
     def save_model(model, optimizer, epoch, loss, filepath):
