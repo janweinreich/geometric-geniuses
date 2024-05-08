@@ -256,18 +256,15 @@ class SmallMolTraj:
             print("Requieres installation of specific packages, qml and MBDF")
             exit()
 
-        X_SPAHM         = get_all_spahm(self.z, self.R, pad=400)
+        #X_SPAHM         = get_all_spahm(self.z, self.R, pad=400)
         X_cMBDF         = get_cMBDF(self.z, self.R, local=False)
         X_cMBDF_LOCAL   = get_cMBDF(self.z, self.R, local=True).flatten()
-        X_SLATM         = get_all_slatm(self.z, self.R, local=False)
-        X_BOB           = gen_all_bob(self.R, self.z, size=100, asize={"O": 4, "C": 12, "N": 3, "H": 16, "S": 1})
+        #X_SLATM         = get_all_slatm(self.z, self.R, local=False)
+        #X_BOB           = gen_all_bob(self.R, self.z, size=100, asize={"O": 4, "C": 12, "N": 3, "H": 16, "S": 1})
 
         self.results = {
             "cMBDF": X_cMBDF,
             "cMBDF_LOCAL": X_cMBDF_LOCAL,
-            "SPAHM": X_SPAHM,
-            "SLATM": X_SLATM,
-            "BOB": X_BOB,
             "y": self.E,
         }
 
