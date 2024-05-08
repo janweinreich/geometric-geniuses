@@ -20,7 +20,6 @@ import deepchem as dc
 from tqdm import tqdm
 import argparse
 from selfies import encoder
-
 from vec2str import ZipFeaturizer
 
 
@@ -99,6 +98,10 @@ def loadpkl(filename: str, compress: bool = False):
     obj = pickle.load(input_file)
     input_file.close()
     return obj
+
+
+def combine_str_vec(X1, X2):
+    return [x1 + x2 for x1, x2 in zip(X1, X2)]
 
 
 # Adapted from https://github.com/rxn4chemistry/rxnfp
@@ -327,17 +330,34 @@ if __name__ == '__main__':
         'ecfp': dc.feat.CircularFingerprint(size=2048, radius=4),
         'mordred': dc.feat.MordredDescriptors(ignore_3D=True)
         }
-
         tasks, X_train, y_train, X_valid, y_valid, X_test, y_test = molnet_loader(
             args.mn_dataset, preproc=True
         )
         print(X_train[1], y_train[1])
         print(X_valid[1], y_valid[1])
         print(X_test[1], y_test[1])
+        
         X_feat_train, y_train = dc_featurize(X_train, y_train, featurizer_mapping[args.featurizer])
         X_feat_valid, y_valid = dc_featurize(X_valid, y_valid, featurizer_mapping[args.featurizer])
         X_feat_test, y_test   = dc_featurize(X_test, y_test, featurizer_mapping[args.featurizer])
         print(X_feat_test.shape)
-        results = {"X_train": X_feat_train, "X_valid": X_feat_valid, "X_test": X_feat_test, "y_train": y_train, "y_valid": y_valid, "y_test": y_test}
+
+        
+        converter = ZipFeaturizer(n_bins=300)
+
+        X_feat_train_str = converter.bin_vectors(X_feat_train)
+        X_feat_valid_str = converter.bin_vectors(X_feat_valid)
+        X_feat_test_str = converter.bin_vectors(X_feat_test)
+
+
+        X_train_combine =   combine_str_vec(X_train, X_feat_train_str)
+        X_valid_combine =   combine_str_vec(X_valid, X_feat_valid_str)
+        X_test_combine =   combine_str_vec(X_test, X_feat_test_str)
+
+
+        results = {"X_train": X_feat_train, "X_valid": X_feat_valid, "X_test": X_feat_test,
+                   "X_train_str": X_feat_train_str, "X_valid_str": X_feat_valid_str, "X_test_str": X_feat_test_str,
+                   "X_train_combine": X_train_combine, "X_valid_combine": X_valid_combine, "X_test_combine": X_test_combine,
+                   "y_train": y_train, "y_valid": y_valid, "y_test": y_test}
 
         dump2pkl(results, f"./data/rep_{args.mn_dataset}_{args.featurizer}.pkl", compress=True)
