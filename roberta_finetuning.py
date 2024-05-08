@@ -48,14 +48,14 @@ class RobertaForRegression(nn.Module):
         return logits
 
 # Set device: Apple/NVIDIA/CPU
-if torch.backends.mps.is_available():
-    device = torch.device("mps")
-elif torch.cuda.is_available():
-    device = torch.device("cuda")
-else:
-    device = torch.device("cpu")
+#if torch.backends.mps.is_available():
+#    device = torch.device("mps")
+#elif torch.cuda.is_available():
+#    device = torch.device("cuda")
+#else:
+device = torch.device("cpu")
 model = RobertaForRegression().to(device)
-optimizer = AdamW(model.parameters(), lr=5e-6)
+optimizer = AdamW(model.parameters(), lr=1e-7)
 
 # DataLoader setup
 train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
@@ -85,3 +85,19 @@ with torch.no_grad():
         loss = nn.MSELoss()(outputs, labels)
         total_loss += loss.item()
     print(f"Test Loss: {total_loss / len(test_loader)}")
+
+
+import os
+
+# Save model and optimizer state
+def save_model(model, optimizer, epoch, loss, filepath):
+    torch.save({
+        'model_state_dict': model.state_dict(),
+        'optimizer_state_dict': optimizer.state_dict(),
+        'epoch': epoch,
+        'loss': loss
+    }, filepath)
+
+# Assuming you want to save the model after training
+model.eval()
+save_model(model, optimizer, epoch, loss.item(), 'roberta_regression.pth')
