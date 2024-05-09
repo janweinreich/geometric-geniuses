@@ -64,7 +64,6 @@ if __name__ == "__main__":
     if args.small:
         #change loading of file depending on the dataset data = loadpkl("data/rep_ethanol.pkl", compress=True)
         data = loadpkl("data/rep_{}.pkl".format(args.data), compress=True)
-        
         #pdb.set_trace()
         X = data["{}".format(args.rep)]
         y = data["y"]
@@ -80,10 +79,10 @@ if __name__ == "__main__":
         X_test = converter.bin_vectors(X_test)
 
         #change the filename depending on the dataset
-        write_data_to_json(X_train, y_train, '{}_train_smi.json'.format(args.data))
-        write_data_to_json(X_test, y_test, '{}_test_smi.json'.format(args.data))
+        write_data_to_json(X_train, y_train, '{}_{}_train_smi.json'.format(args.data, args.rep))
+        write_data_to_json(X_test, y_test, '{}_{}_test_smi.json'.format(args.data, args.rep))
 
-        data = load_data("{}_train_smi.json".format(args.data))
+        data = load_data("{}_{}_train_smi.json".format(args.data, args.rep))
     
     else:
         # Assuming the filepath to your JSON file
@@ -125,7 +124,7 @@ if __name__ == "__main__":
 
     # Training loop
     model.train()
-    for epoch in range(100):  # Number of epochs
+    for epoch in range(2):  # Number of epochs
         for batch in train_loader:
             optimizer.zero_grad()
             inputs, labels = batch['input_ids'].to(device), batch['labels'].to(device)
