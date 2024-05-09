@@ -93,6 +93,13 @@ if __name__ == "__main__":
     # Compute R² score
     r2 = r2_score(actuals, predictions)
     print(f'R² Score: {r2}')
+    #mean squared error
+    mse = np.mean((np.array(predictions) - np.array(actuals))**2)
+    print(f'Mean Squared Error: {mse}')
+    #mean absolute error
+    mae = np.mean(np.abs(np.array(predictions) - np.array(actuals)))
+    print(f'Mean Absolute Error: {mae}')
+    
 
     # Scatter plot of actual vs predicted values
     plt.figure(figsize=(6, 6))
@@ -106,7 +113,9 @@ if __name__ == "__main__":
 
     plt.xlabel('Actual Energy')
     plt.ylabel('Predicted Energy')
-    plt.grid(True)
+    plt.grid(True)  # Enable grid lines for better readability
+    plt.xticks(fontsize=16)  # Adjust x-axis tick label font size
+    plt.yticks(fontsize=16)  # Adjust y-axis tick label font size
     #create subfolder for figures if it does not exist
     if not os.path.exists("figures"):
         os.makedirs("figures")
