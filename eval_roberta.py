@@ -8,6 +8,7 @@ import json
 from sklearn.model_selection import train_test_split
 from torch.utils.data import Dataset, DataLoader
 from transformers import RobertaTokenizer, RobertaModel
+import numpy as np
 
 class RobertaForRegression(nn.Module):
     def __init__(self):
@@ -30,7 +31,8 @@ def load_data(filepath):
     return data
 
 data = load_data('ethanol_test_smi.json')
-_, test_data = train_test_split(data, test_size=0.2, random_state=42)  # Assuming you use the same split
+
+_, test_data = train_test_split(data, test_size=0.9, random_state=42)  # Assuming you use the same split
 
 class MoleculeDataset(Dataset):
     def __init__(self, data, tokenizer):
@@ -73,6 +75,13 @@ print(f'R² Score: {r2}')
 # Scatter plot of actual vs predicted values
 plt.figure(figsize=(10, 6))
 plt.scatter(actuals, predictions, color='blue', alpha=0.5)
+
+min_value = min(np.min(actuals), np.min(predictions))
+max_value = max(np.max(actuals), np.max(predictions))
+plt.plot([min_value, max_value], [min_value, max_value], color='red', linestyle='--', linewidth=2, label='Perfect Prediction')
+
+
+
 plt.xlabel('Actual Energy')
 plt.ylabel('Predicted Energy')
 plt.grid(True)

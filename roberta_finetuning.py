@@ -50,13 +50,23 @@ def load_data(filepath):
     return data
 
 if __name__ == "__main__":
-    do_small = True
+    import argparse
+    parser = argparse.ArgumentParser()
 
-    if do_small:
+    parser.add_argument('--small', type=bool, help='if true, run on small molecules')
+    parser.add_argument('--data', type=str, help='name of dataset to use')
+    #options for representation cMBDF, cMBDF_trans, (SPAHM, SPAHM_trans)
+    parser.add_argument('--rep', type=str, help='name of representation to use')
+    args = parser.parse_args()
 
-        data = loadpkl("data/rep_ethanol.pkl", compress=True)
+    #example use
+    #python roberta_finetuning.py --small True --data ethanol --rep cMBDF
+    if args.small:
+        #change loading of file depending on the dataset data = loadpkl("data/rep_ethanol.pkl", compress=True)
+        data = loadpkl("data/rep_{}.pkl".format(args.data), compress=True)
+        
         #pdb.set_trace()
-        X = data["cMBDF_trans"]
+        X = data["{}".format(args.rep)]
         y = data["y"]
         y_min = np.min(y)
         y+=-y_min 
@@ -64,15 +74,16 @@ if __name__ == "__main__":
 
         
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        converter = ZipFeaturizer(n_bins=200)
+        converter = ZipFeaturizer(n_bins=300) #<--- you can change if does not work
         
         X_train = converter.bin_vectors(X_train)
         X_test = converter.bin_vectors(X_test)
 
-        write_data_to_json(X_train, y_train, 'ethanol_train_smi.json')
-        write_data_to_json(X_test, y_test, 'ethanol_test_smi.json')
+        #change the filename depending on the dataset
+        write_data_to_json(X_train, y_train, '{}_train_smi.json'.format(args.data))
+        write_data_to_json(X_test, y_test, '{}_test_smi.json'.format(args.data))
 
-        data = load_data('ethanol_train_smi.json')
+        data = load_data("{}_train_smi.json".format(args.data))
     
     else:
         # Assuming the filepath to your JSON file
@@ -80,9 +91,6 @@ if __name__ == "__main__":
 
     # Split the data into training and test sets (modify as needed if already split)
     train_data, test_data = train_test_split(data, test_size=0.2, random_state=42)
-
-
-
     tokenizer = RobertaTokenizer.from_pretrained('roberta-base')
     train_dataset = MoleculeDataset(train_data, tokenizer)
     test_dataset = MoleculeDataset(test_data, tokenizer)
@@ -110,13 +118,14 @@ if __name__ == "__main__":
     model = RobertaForRegression().to(device)
     optimizer = AdamW(model.parameters(), lr=1e-6)
 
+
     # DataLoader setup
-    train_loader = DataLoader(train_dataset, batch_size=4, shuffle=True)
-    test_loader = DataLoader(test_dataset, batch_size=4, shuffle=False)
+    train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
+    test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False)
 
     # Training loop
     model.train()
-    for epoch in range(1):  # Number of epochs
+    for epoch in range(100):  # Number of epochs
         for batch in train_loader:
             optimizer.zero_grad()
             inputs, labels = batch['input_ids'].to(device), batch['labels'].to(device)
@@ -153,4 +162,8 @@ if __name__ == "__main__":
 
     # Assuming you want to save the model after training
     model.eval()
-    save_model(model, optimizer, epoch, loss.item(), 'roberta_regression.pth')
+
+    if not os.path.exists('save_models'):
+        os.makedirs('save_models')
+
+    save_model(model, optimizer, epoch, loss.item(), "save_models/{}_regression.pth".format(args.data))
