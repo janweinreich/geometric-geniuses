@@ -165,4 +165,4 @@ if __name__ == "__main__":
     if not os.path.exists('save_models'):
         os.makedirs('save_models')
 
-    save_model(model, optimizer, epoch, loss.item(), "save_models/{}_regression.pth".format(args.data))
+    save_model(model, optimizer, epoch, loss.item(), "save_models/{}_{}_regression.pth".format(args.data, args.rep))
