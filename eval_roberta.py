@@ -9,6 +9,8 @@ from sklearn.model_selection import train_test_split
 from torch.utils.data import Dataset, DataLoader
 from transformers import RobertaTokenizer, RobertaModel
 import numpy as np
+import argparse
+import os
 
 class RobertaForRegression(nn.Module):
     def __init__(self):
@@ -23,17 +25,6 @@ class RobertaForRegression(nn.Module):
         return logits
 
 
-
-# Load data from JSON
-def load_data(filepath):
-    with open(filepath, 'r') as file:
-        data = json.load(file)
-    return data
-
-data = load_data('ethanol_test_smi.json')
-
-_, test_data = train_test_split(data, test_size=0.9, random_state=42)  # Assuming you use the same split
-
 class MoleculeDataset(Dataset):
     def __init__(self, data, tokenizer):
         self.encodings = tokenizer([d['input'] for d in data], truncation=True, padding=True, max_length=512)
@@ -47,44 +38,79 @@ class MoleculeDataset(Dataset):
     def __len__(self):
         return len(self.labels)
 
-tokenizer = RobertaTokenizer.from_pretrained('roberta-base')
-test_dataset = MoleculeDataset(test_data, tokenizer)
-test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
-
-# Load the model
-device = torch.device("cpu")
-model = RobertaForRegression().to(device)
-checkpoint = torch.load('roberta_regression.pth')
-model.load_state_dict(checkpoint['model_state_dict'])
-
-# Evaluate the model
-model.eval()
-predictions, actuals = [], []
-with torch.no_grad():
-    for batch in test_loader:
-        inputs, labels = batch['input_ids'].to(device), batch['labels'].to(device)
-        mask = batch['attention_mask'].to(device)
-        outputs = model(inputs, mask).squeeze(-1)
-        predictions.extend(outputs.cpu().numpy())
-        actuals.extend(labels.cpu().numpy())
-
-# Compute R² score
-r2 = r2_score(actuals, predictions)
-print(f'R² Score: {r2}')
-
-# Scatter plot of actual vs predicted values
-plt.figure(figsize=(10, 6))
-plt.scatter(actuals, predictions, color='blue', alpha=0.5)
-
-min_value = min(np.min(actuals), np.min(predictions))
-max_value = max(np.max(actuals), np.max(predictions))
-plt.plot([min_value, max_value], [min_value, max_value], color='red', linestyle='--', linewidth=2, label='Perfect Prediction')
+# Load data from JSON
+def load_data(filepath):
+    with open(filepath, 'r') as file:
+        data = json.load(file)
+    return data
 
 
 
-plt.xlabel('Actual Energy')
-plt.ylabel('Predicted Energy')
-plt.grid(True)
-plt.savefig('actual_vs_predicted.png')
-plt.show()
+if __name__ == "__main__":
+    
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('--small', type=bool, help='if true, run on small molecules')
+    parser.add_argument('--data', type=str, help='name of dataset to use')
+    #options for representation cMBDF, cMBDF_trans, (SPAHM, SPAHM_trans)
+    parser.add_argument('--rep', type=str, help='name of representation to use')
+    args = parser.parse_args()
+
+
+
+    data = load_data("{}_{}_test_smi.json".format(args.data, args.rep))
+    _, test_data = train_test_split(data, test_size=0.9, random_state=42)  # Assuming you use the same split
+    tokenizer = RobertaTokenizer.from_pretrained('roberta-base')
+    test_dataset = MoleculeDataset(test_data, tokenizer)
+    test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False)
+
+    # Load the model
+    # Set device: Apple/NVIDIA/CPU
+    if torch.backends.mps.is_available():
+        device = torch.device("mps")
+    elif torch.cuda.is_available():
+        device = torch.device("cuda")
+    else:
+        device = torch.device("cpu")
+
+    model = RobertaForRegression().to(device)
+    model = RobertaForRegression().to(device)
+    checkpoint = torch.load("save_models/{}_{}_regression.pth".format(args.data, args.rep))
+    model.load_state_dict(checkpoint['model_state_dict'])
+
+    # Evaluate the model
+    model.eval()
+    predictions, actuals = [], []
+    with torch.no_grad():
+        for batch in test_loader:
+            inputs, labels = batch['input_ids'].to(device), batch['labels'].to(device)
+            mask = batch['attention_mask'].to(device)
+            outputs = model(inputs, mask).squeeze(-1)
+            predictions.extend(outputs.cpu().numpy())
+            actuals.extend(labels.cpu().numpy())
+
+    # Compute R² score
+    r2 = r2_score(actuals, predictions)
+    print(f'R² Score: {r2}')
+
+    # Scatter plot of actual vs predicted values
+    plt.figure(figsize=(6, 6))
+    plt.scatter(actuals, predictions, color='blue', alpha=0.5)
+
+    min_value = min(np.min(actuals), np.min(predictions))
+    max_value = max(np.max(actuals), np.max(predictions))
+    plt.plot([min_value, max_value], [min_value, max_value], color='red', linestyle='--', linewidth=2, label='Perfect Prediction')
+
+
+
+    plt.xlabel('Actual Energy')
+    plt.ylabel('Predicted Energy')
+    plt.grid(True)
+    #create subfolder for figures if it does not exist
+    if not os.path.exists("figures"):
+        os.makedirs("figures")
+
+    plt.savefig('figures/{}_{}_regression.png'.format(args.data, args.rep))
+    plt.show()
 
