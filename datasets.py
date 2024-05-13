@@ -5,7 +5,6 @@ import numpy as np
 random.seed(666)
 np.random.seed(666)
 import os
-import pdb
 
 import numpy as np
 from typing import List, Dict, Any, Tuple, Optional
@@ -21,6 +20,7 @@ from tqdm import tqdm
 import argparse
 from selfies import encoder
 from vec2str import ZipFeaturizer
+from sklearn.decomposition import PCA
 
 
 def numpy_encoder(obj):
@@ -232,7 +232,7 @@ class SmallMolTraj:
 
         data = np.load(f'./.data/{self.molname}.npz')
 
-        indices = np.random.choice(data["R"].shape[0], 10000, replace=False)
+        indices = np.random.choice(data["R"].shape[0], 80000, replace=False)
         self.z = (np.array(list(data["z"]) * data["R"].shape[0])).reshape(
             data["R"].shape[0], -1
         )[indices]
@@ -256,15 +256,32 @@ class SmallMolTraj:
             print("Requieres installation of specific packages, qml and MBDF")
             exit()
 
-        #X_SPAHM         = get_all_spahm(self.z, self.R, pad=400)
+        X_SPAHM         = get_all_spahm(self.z, self.R, pad=400)
         X_cMBDF         = get_cMBDF(self.z, self.R, local=False)
-        X_cMBDF_LOCAL   = get_cMBDF(self.z, self.R, local=True).flatten()
-        #X_SLATM         = get_all_slatm(self.z, self.R, local=False)
-        #X_BOB           = gen_all_bob(self.R, self.z, size=100, asize={"O": 4, "C": 12, "N": 3, "H": 16, "S": 1})
+        X_BOB           = gen_all_bob(self.R, self.z, size=100, asize={"O": 4, "C": 12, "N": 3, "H": 16, "S": 1})
+
+        #import PCA to reduce the dimensionality of the features
+        
+
+        pca = PCA(n_components=10)
+        
+        X_cMBDF_trans = pca.fit_transform(X_cMBDF)
+        pca = PCA(n_components=10)
+
+        X_BOB_trans = pca.fit_transform(X_BOB)
+
+        pca = PCA(n_components=10)
+        X_SPAHM_trans = pca.fit_transform(X_SPAHM)
+
+
 
         self.results = {
             "cMBDF": X_cMBDF,
-            "cMBDF_LOCAL": X_cMBDF_LOCAL,
+            "BOB": X_BOB,
+            "SPAHM": X_SPAHM,
+            "cMBDF_trans": X_cMBDF_trans,
+            "X_BOB_trans": X_BOB_trans,
+            "X_SPAHM_trans": X_SPAHM_trans,
             "y": self.E,
         }
 
@@ -304,7 +321,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.do_small:
-        SMALL_MOLECULES = ["aspirin", "benzene2017", "ethanol", "malonaldehyde", "naphthalene", "salicylic", "toluene", "uracil"]
+        SMALL_MOLECULES = ["aspirin", "benzene2017", "ethanol"]
 
         for mol in tqdm(SMALL_MOLECULES):
             smallMol = SmallMolTraj(mol)
@@ -347,9 +364,12 @@ if __name__ == '__main__':
         X_feat_test_str = converter.bin_vectors(X_feat_test)
 
 
+
+        ## TODO add a PCA here
+        
         X_train_combine =   combine_str_vec(X_train, X_feat_train_str)
         X_valid_combine =   combine_str_vec(X_valid, X_feat_valid_str)
-        X_test_combine =   combine_str_vec(X_test, X_feat_test_str)
+        X_test_combine  =   combine_str_vec(X_test, X_feat_test_str)
 
 
         results = {"X_train": X_feat_train, "X_valid": X_feat_valid, "X_test": X_feat_test,
