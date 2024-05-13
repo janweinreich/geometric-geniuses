@@ -220,17 +220,17 @@ class SmallMolTraj:
 
     def get_data(self):
 
-        if not os.path.exists(f'./data/{self.molname}.npz'):
+        if not os.path.exists(f'./.data/{self.molname}.npz'):
             print('Downloading the file')
             import urllib.request
             url = f'http://www.quantum-machine.org/gdml/data/npz/md17_{self.molname}.npz'
-            os.makedirs('data', exist_ok=True)
-            urllib.request.urlretrieve(url, f'data/{self.molname}.npz')
+            os.makedirs('.data', exist_ok=True)
+            urllib.request.urlretrieve(url, f'.data/{self.molname}.npz')
             print('Download complete')
         else:
             print('File already exists')
 
-        data = np.load(f'./data/{self.molname}.npz')
+        data = np.load(f'./.data/{self.molname}.npz')
 
         indices = np.random.choice(data["R"].shape[0], 80000, replace=False)
         self.z = (np.array(list(data["z"]) * data["R"].shape[0])).reshape(
@@ -247,6 +247,8 @@ class SmallMolTraj:
         try:
             from representations import (
                 get_cMBDF,
+                gen_all_bob,
+                get_all_spahm
             )
 
         except ImportError:
@@ -254,16 +256,29 @@ class SmallMolTraj:
             exit()
 
         N_COMPONENTS    = 10 # number of components for PCA in principle a hyperparameter
+        X_SPAHM         = get_all_spahm(self.z, self.R, pad=400)
         X_cMBDF         = get_cMBDF(self.z, self.R, local=False)
+        X_BOB           = gen_all_bob(self.R, self.z, size=100, asize={"O": 4, "C": 12, "N": 3, "H": 16, "S": 1})
 
         # import PCA to reduce the dimensionality of the features
-        pca = PCA(n_components=N_COMPONENTS)
-        X_cMBDF_trans = pca.fit_transform(X_cMBDF)
 
+        pca = PCA(n_components=N_COMPONENTS)
+
+        X_cMBDF_trans = pca.fit_transform(X_cMBDF)
+        pca = PCA(n_components=N_COMPONENTS)
+
+        X_BOB_trans = pca.fit_transform(X_BOB)
+
+        pca = PCA(n_components=N_COMPONENTS)
+        X_SPAHM_trans = pca.fit_transform(X_SPAHM)
 
         self.results = {
             "cMBDF": X_cMBDF,
+            "BOB": X_BOB,
+            "SPAHM": X_SPAHM,
             "cMBDF_trans": X_cMBDF_trans,
+            "X_BOB_trans": X_BOB_trans,
+            "X_SPAHM_trans": X_SPAHM_trans,
             "y": self.E,
         }
 
@@ -300,8 +315,6 @@ if __name__ == '__main__':
     parser.add_argument('--featurizer', type=str, default='rdkit', choices=['mol2vec', 'rdkit', 'ecfp', 'mordred'], help='Molecular featurizer to use (default: rdkit)')
     parser.add_argument('--do_small', action='store_true', help='Load MD trajectory dataset features')
     parser.add_argument('--do_smiles', action='store_true', help='Save SMILES data')
-    parser.add_argument("--n_components",type=int,default=10,help="n_components for PCA in the cMBDF representation", required=False)
-
     args = parser.parse_args()
 
     if args.do_small:
@@ -319,10 +332,9 @@ if __name__ == '__main__':
         )
         X_train_selfies = smiles_to_selfies(X_train)
         X_valid_selfies = smiles_to_selfies(X_valid)
-        X_test_selfies  = smiles_to_selfies(X_test)
+        X_test_selfies = smiles_to_selfies(X_test)
         results = {"X_train": X_train, "X_valid": X_valid, "X_test": X_test, "y_train": y_train, "y_valid": y_valid, "y_test": y_test, "X_train_selfies": X_train_selfies, "X_valid_selfies": X_valid_selfies, "X_test_selfies": X_test_selfies}
         dump2pkl(results, f"./data/rep_{args.mn_dataset}_smiles_selfies.pkl", compress=True)
-
     else:
         featurizer_mapping = {
         'rdkit': dc.feat.RDKitDescriptors(),
@@ -336,23 +348,27 @@ if __name__ == '__main__':
         print(X_train[1], y_train[1])
         print(X_valid[1], y_valid[1])
         print(X_test[1], y_test[1])
-
+        
         X_feat_train, y_train = dc_featurize(X_train, y_train, featurizer_mapping[args.featurizer])
         X_feat_valid, y_valid = dc_featurize(X_valid, y_valid, featurizer_mapping[args.featurizer])
         X_feat_test, y_test   = dc_featurize(X_test, y_test, featurizer_mapping[args.featurizer])
         print(X_feat_test.shape)
 
+        
         converter = ZipFeaturizer(n_bins=300)
 
         X_feat_train_str = converter.bin_vectors(X_feat_train)
         X_feat_valid_str = converter.bin_vectors(X_feat_valid)
         X_feat_test_str = converter.bin_vectors(X_feat_test)
 
-        ## TODO add a PCA here
 
+
+        ## TODO add a PCA here
+        
         X_train_combine =   combine_str_vec(X_train, X_feat_train_str)
         X_valid_combine =   combine_str_vec(X_valid, X_feat_valid_str)
         X_test_combine  =   combine_str_vec(X_test, X_feat_test_str)
+
 
         results = {"X_train": X_feat_train, "X_valid": X_feat_valid, "X_test": X_feat_test,
                    "X_train_str": X_feat_train_str, "X_valid_str": X_feat_valid_str, "X_test_str": X_feat_test_str,
