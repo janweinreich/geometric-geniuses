@@ -1,4 +1,6 @@
-# geometric-geniuses
+# Chemical feature vectors for LLMs
+
+Team "geometric-geniuses"
 Contribution for 24' LLM Hackathon for Applications in Materials and Chemistry
 
 
@@ -33,3 +35,7 @@ rep_ethanol.pkl
 ## Fine-tune the model roberta-base
 
 `python roberta_finetuning.py --small True --data ethanol --rep cMBDF`
+
+## Evaluate the model's performance
+
+`python eval_roberta.py --small True --data ethanol --rep cMBDF`
