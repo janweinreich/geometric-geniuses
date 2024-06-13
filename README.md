@@ -9,17 +9,16 @@ Contribution for 24' LLM Hackathon for Applications in Materials and Chemistry
 
 # Setup
 Create a new conda environment with the following command:
-`conda create -n geo-gen python`
-
-
-Activate the environment with the following command:
-`conda activate geo-gen`
-
-Install the required packages with the following command:
-`pip install -r requirements.txt`
+`pip install  .`
 
 
 # Running the code
+
+## Tutorial
+
+Check out the jupyter notebook file `tutorial.ipynb`.
+
+
 ## Create input data from MD17 dataset of small molecule MD trajectories
 
 `python datasets.py --do_small --n_components 10`
