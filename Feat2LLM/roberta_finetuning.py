@@ -4,13 +4,14 @@ from torch import nn
 from torch.utils.data import Dataset, DataLoader
 from transformers import RobertaTokenizer, RobertaModel, AdamW
 from sklearn.model_selection import train_test_split
-from datasets import loadpkl
+
 import numpy as np
 import pdb
-from vec2str import ZipFeaturizer
 import json
 import os
 import argparse
+from Feat2LLM.vec2str import ZipFeaturizer
+from Feat2LLM.load_data import loadpkl
 
 class MoleculeDataset(Dataset):
     def __init__(self, data, tokenizer):
@@ -45,50 +46,47 @@ def write_data_to_json(X_train, y_train, filename):
         json.dump(data, file, indent=4, ensure_ascii=False)
 
 # Load data from JSON file
-def load_data(filepath):
+def load_JSON_data(filepath):
     with open(filepath, 'r') as file:
         data = json.load(file)
     return data
 
 if __name__ == "__main__":
-    
+
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--small', type=bool, help='if true, run on small molecules')
     parser.add_argument('--data', type=str, help='name of dataset to use')
-    #options for representation cMBDF, cMBDF_trans, (SPAHM, SPAHM_trans)
+    # options for representation cMBDF, cMBDF_trans, (SPAHM, SPAHM_trans)
     parser.add_argument('--rep', type=str, help='name of representation to use')
     args = parser.parse_args()
 
-    #example use
-    #python roberta_finetuning.py --small True --data ethanol --rep cMBDF
+    # example use
+    # python roberta_finetuning.py --small True --data ethanol --rep cMBDF
     if args.small:
-        #change loading of file depending on the dataset data = loadpkl("data/rep_ethanol.pkl", compress=True)
+        # change loading of file depending on the dataset data = loadpkl("data/rep_ethanol.pkl", compress=True)
         data = loadpkl("data/rep_{}.pkl".format(args.data), compress=True)
-        #pdb.set_trace()
+        # pdb.set_trace()
         X = data["{}".format(args.rep)]
         y = data["y"]
-        pdb.set_trace()
         y_min = np.min(y)
         y+=-y_min 
 
-
-        
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
         converter = ZipFeaturizer(n_bins=300) #<--- you can change if does not work
-        
+
         X_train = converter.bin_vectors(X_train)
         X_test = converter.bin_vectors(X_test)
 
-        #change the filename depending on the dataset
+        # change the filename depending on the dataset
         write_data_to_json(X_train, y_train, '{}_{}_train_smi.json'.format(args.data, args.rep))
         write_data_to_json(X_test, y_test, '{}_{}_test_smi.json'.format(args.data, args.rep))
 
-        data = load_data("{}_{}_train_smi.json".format(args.data, args.rep))
-    
+        data = load_JSON_data("{}_{}_train_smi.json".format(args.data, args.rep))
+
     else:
         # Assuming the filepath to your JSON file
-        data = load_data('qm7_train_smi.json')
+        data = load_JSON_data("qm7_train_smi.json")
 
     # Split the data into training and test sets (modify as needed if already split)
     train_data, test_data = train_test_split(data, test_size=0.2, random_state=42)
@@ -119,7 +117,6 @@ if __name__ == "__main__":
     model = RobertaForRegression().to(device)
     optimizer = AdamW(model.parameters(), lr=1e-6)
 
-
     # DataLoader setup
     train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
     test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False)
@@ -148,9 +145,6 @@ if __name__ == "__main__":
             loss = nn.MSELoss()(outputs, labels)
             total_loss += loss.item()
         print(f"Test Loss: {total_loss / len(test_loader)}")
-
-
-    
 
     # Save model and optimizer state
     def save_model(model, optimizer, epoch, loss, filepath):
