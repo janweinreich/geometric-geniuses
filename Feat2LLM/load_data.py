@@ -19,9 +19,10 @@ import deepchem as dc
 from tqdm import tqdm
 import argparse
 from selfies import encoder
-from vec2str import ZipFeaturizer
 from sklearn.decomposition import PCA
 
+from Feat2LLM.vec2str import ZipFeaturizer
+from Feat2LLM.representations import get_cMBDF
 
 def numpy_encoder(obj):
     """Special JSON encoder for numpy types"""
@@ -240,26 +241,16 @@ class SmallMolTraj:
         self.R = data['R'][indices]
         self.E = data['E'][indices]
 
-    def gen_representation(self):
+    def gen_representation(self, n_components=10):
         """
         generate the representation of the molecule
         """
-        try:
-            from representations import (
-                get_cMBDF,
-            )
 
-        except ImportError:
-            print("Requieres installation of specific packages, qml and MBDF")
-            exit()
-
-        N_COMPONENTS    = 10 # number of components for PCA in principle a hyperparameter
         X_cMBDF         = get_cMBDF(self.z, self.R, local=False)
 
         # import PCA to reduce the dimensionality of the features
-        pca = PCA(n_components=N_COMPONENTS)
+        pca = PCA(n_components=n_components)
         X_cMBDF_trans = pca.fit_transform(X_cMBDF)
-
 
         self.results = {
             "cMBDF": X_cMBDF,
@@ -310,7 +301,7 @@ if __name__ == '__main__':
         for mol in tqdm(SMALL_MOLECULES):
             smallMol = SmallMolTraj(mol)
             smallMol.get_data()
-            smallMol.gen_representation()
+            smallMol.gen_representation(args.n_components)
             smallMol.save()
 
     elif args.do_smiles:

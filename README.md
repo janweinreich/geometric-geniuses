@@ -5,7 +5,7 @@ Contribution for 24' LLM Hackathon for Applications in Materials and Chemistry
 
 
 
-<img src="scheme_2.png" width="90%" height="40%" />
+<img src="scheme.png" width="90%" height="40%" />
 
 # Setup
 Create a new conda environment with the following command:

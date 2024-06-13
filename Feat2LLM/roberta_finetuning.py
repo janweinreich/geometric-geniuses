@@ -10,6 +10,7 @@ import pdb
 from vec2str import ZipFeaturizer
 import json
 import os
+import argparse
 
 class MoleculeDataset(Dataset):
     def __init__(self, data, tokenizer):
@@ -50,7 +51,7 @@ def load_data(filepath):
     return data
 
 if __name__ == "__main__":
-    import argparse
+    
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--small', type=bool, help='if true, run on small molecules')
@@ -67,6 +68,7 @@ if __name__ == "__main__":
         #pdb.set_trace()
         X = data["{}".format(args.rep)]
         y = data["y"]
+        pdb.set_trace()
         y_min = np.min(y)
         y+=-y_min 
 
