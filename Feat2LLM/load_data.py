@@ -270,7 +270,7 @@ class SmallMolTraj:
 if __name__ == '__main__':
     """
     Usage:
-    python datasets.py [--mn_dataset <dataset name>] [--featurizer <featurizer>] [--optimize]
+    python load_data.py [--mn_dataset <dataset name>] [--featurizer <featurizer>] [--optimize]
 
     Arguments:
 
@@ -284,7 +284,7 @@ if __name__ == '__main__':
     --do_small                  Load MD trajectory datasets
 
     Example:
-    python datasets.py --mn_dataset qm7 --featurizer mol2vec --optimize
+    python load_data.py --mn_dataset qm7 --featurizer mol2vec --optimize
     """
     parser = argparse.ArgumentParser(description='Generate dataset features', usage=__doc__)
     parser.add_argument('--mn_dataset', type=str, default='qm7',choices=['qm7', 'delaney', 'lipo', 'tox21'] ,help='Name of the MoleculeNet dataset to load')
