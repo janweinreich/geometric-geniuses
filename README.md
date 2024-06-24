@@ -8,7 +8,7 @@ Video explanation
 https://www.youtube.com/watch?v=WZz1pVRS4RA&t=5s
 
 
-<img src="scheme.png" width="90%" height="40%" />
+<img src="scheme_new.png" width="90%" height="40%" />
 
 # Setup
 Create a new conda environment with the following command:
