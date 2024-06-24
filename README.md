@@ -3,6 +3,9 @@
 Team "geometric-geniuses"
 Contribution for 24' LLM Hackathon for Applications in Materials and Chemistry
 
+Video explanation
+
+https://www.youtube.com/watch?v=WZz1pVRS4RA&t=5s
 
 
 <img src="scheme.png" width="90%" height="40%" />
