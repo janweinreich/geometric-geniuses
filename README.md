@@ -24,6 +24,12 @@ Check out the jupyter notebook file `tutorial.ipynb`.
 
 ## Create input data from MD17 dataset of small molecule MD trajectories
 
+First change to the main directory
+
+`cd Feat2LLM`
+
+then
+
 `python load_data.py --do_small --n_components 10`
 
 Afterwards you will get files in the `data` folder with the following names:
