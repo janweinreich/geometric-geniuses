@@ -45,19 +45,15 @@ def load_data(filepath):
     return data
 
 
-
 if __name__ == "__main__":
-    
 
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--small', type=bool, help='if true, run on small molecules')
     parser.add_argument('--data', type=str, help='name of dataset to use')
-    #options for representation cMBDF, cMBDF_trans, (SPAHM, SPAHM_trans)
+    # options for representation cMBDF, cMBDF_trans, (SPAHM, SPAHM_trans)
     parser.add_argument('--rep', type=str, help='name of representation to use')
     args = parser.parse_args()
-
-
 
     data = load_data("{}_{}_test_smi.json".format(args.data, args.rep))
     _, test_data = train_test_split(data, test_size=0.9, random_state=42)  # Assuming you use the same split
@@ -93,13 +89,12 @@ if __name__ == "__main__":
     # Compute R² score
     r2 = r2_score(actuals, predictions)
     print(f'R² Score: {r2}')
-    #mean squared error
+    # mean squared error
     mse = np.mean((np.array(predictions) - np.array(actuals))**2)
     print(f'Mean Squared Error: {mse}')
-    #mean absolute error
+    # mean absolute error
     mae = np.mean(np.abs(np.array(predictions) - np.array(actuals)))
     print(f'Mean Absolute Error: {mae}')
-    
 
     # Scatter plot of actual vs predicted values
     plt.figure(figsize=(6, 6))
@@ -109,17 +104,27 @@ if __name__ == "__main__":
     max_value = max(np.max(actuals), np.max(predictions))
     plt.plot([min_value, max_value], [min_value, max_value], color='red', linestyle='--', linewidth=2, label='Perfect Prediction')
 
-
-
     plt.xlabel('Actual Energy')
     plt.ylabel('Predicted Energy')
     plt.grid(True)  # Enable grid lines for better readability
     plt.xticks(fontsize=16)  # Adjust x-axis tick label font size
     plt.yticks(fontsize=16)  # Adjust y-axis tick label font size
-    #create subfolder for figures if it does not exist
+    # create subfolder for figures if it does not exist
     if not os.path.exists("figures"):
         os.makedirs("figures")
 
     plt.savefig('figures/{}_{}_regression.png'.format(args.data, args.rep))
+
     plt.show()
 
+    # create a text file with all the metrics
+    with open("figures/{}_{}_regression.txt".format(args.data, args.rep), "w") as f:
+        f.write(f"R² Score: {r2}\n")
+        f.write(f"Mean Squared Error: {mse}\n")
+        f.write(f"Mean Absolute Error: {mae}\n")
+
+    # Save the predictions and actual values
+    with open("figures/{}_{}_regression_predictions.txt".format(args.data, args.rep), "w") as f:
+        f.write("Actual, Predicted\n")
+        for actual, predicted in zip(actuals, predictions):
+            f.write(f"{actual}, {predicted}\n")
