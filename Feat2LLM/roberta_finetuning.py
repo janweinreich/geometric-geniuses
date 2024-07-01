@@ -123,7 +123,7 @@ if __name__ == "__main__":
 
     # Training loop
     model.train()
-    for epoch in range(100):  # Number of epochs
+    for epoch in range(4):  # Number of epochs
         for batch in train_loader:
             optimizer.zero_grad()
             inputs, labels = batch['input_ids'].to(device), batch['labels'].to(device)
