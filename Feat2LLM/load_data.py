@@ -23,7 +23,7 @@ from sklearn.decomposition import PCA
 
 from Feat2LLM.vec2str import ZipFeaturizer
 from Feat2LLM.representations import get_cMBDF
-
+import pdb
 def numpy_encoder(obj):
     """Special JSON encoder for numpy types"""
     if isinstance(
@@ -257,7 +257,7 @@ class SmallMolTraj:
             "cMBDF_trans": X_cMBDF_trans,
             "y": self.E,
         }
-
+        
         return self.results
 
     def save(self):
@@ -317,7 +317,6 @@ if __name__ == '__main__':
     else:
         featurizer_mapping = {
         'rdkit': dc.feat.RDKitDescriptors(),
-        'mol2vec': dc.feat.Mol2VecFingerprint(),
         'ecfp': dc.feat.CircularFingerprint(size=2048, radius=4),
         'mordred': dc.feat.MordredDescriptors(ignore_3D=True)
         }
@@ -335,11 +334,15 @@ if __name__ == '__main__':
 
         converter = ZipFeaturizer(n_bins=300)
 
+        pca = PCA(n_components=args.n_components)
+
+        X_feat_train = pca.fit_transform(X_feat_train)
+        X_feat_valid = pca.transform(X_feat_valid)
+        X_feat_test = pca.transform(X_feat_test)
+
         X_feat_train_str = converter.bin_vectors(X_feat_train)
         X_feat_valid_str = converter.bin_vectors(X_feat_valid)
         X_feat_test_str = converter.bin_vectors(X_feat_test)
-
-        ## TODO add a PCA here
 
         X_train_combine =   combine_str_vec(X_train, X_feat_train_str)
         X_valid_combine =   combine_str_vec(X_valid, X_feat_valid_str)
