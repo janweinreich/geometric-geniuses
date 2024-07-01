@@ -59,6 +59,7 @@ if __name__ == "__main__":
     parser.add_argument('--data', type=str, help='name of dataset to use')
     # options for representation cMBDF, cMBDF_trans, (SPAHM, SPAHM_trans)
     parser.add_argument('--rep', type=str, help='name of representation to use')
+    parser.add_argument('--modal', type=str, help='name of modality to use', default="vec")
     args = parser.parse_args()
 
     # example use
@@ -79,14 +80,34 @@ if __name__ == "__main__":
         X_test = converter.bin_vectors(X_test)
 
         # change the filename depending on the dataset
-        write_data_to_json(X_train, y_train, '{}_{}_train_smi.json'.format(args.data, args.rep))
-        write_data_to_json(X_test, y_test, '{}_{}_test_smi.json'.format(args.data, args.rep))
+        write_data_to_json(X_train, y_train, '{}_{}_train.json'.format(args.data, args.rep))
+        write_data_to_json(X_test, y_test, '{}_{}_test.json'.format(args.data, args.rep))
 
         data = load_JSON_data("{}_{}_train_smi.json".format(args.data, args.rep))
 
     else:
         # Assuming the filepath to your JSON file
-        data = load_JSON_data("qm7_train_smi.json")
+
+        data = loadpkl("./data/rep_{}_{}.pkl".format(args.data, args.rep), compress=True)
+
+        if args.modal == "vec":
+            X_train, X_test, y_train, y_test = data["X_train_str"], data["X_test_str"], data["y_train"], data["y_test"]
+        elif args.modal == "combine":
+            X_train, X_test, y_train, y_test = data["X_train_combine"], data["X_test_combine"], data["y_train"], data["y_test"]
+        elif args.modal == "smiles":
+            X_train, X_test, y_train, y_test = (
+                data["X_train_SMILES"],
+                data["X_test_SMILES"],
+                data["y_train"],
+                data["y_test"],
+            )
+        else:
+            print("Invalid modality")
+        
+        write_data_to_json(X_train, y_train, '{}_{}_train.json'.format(args.data, args.rep))
+        write_data_to_json(X_test, y_test, '{}_{}_test.json'.format(args.data, args.rep))
+
+        data = load_JSON_data("{}_{}_train.json".format(args.data, args.rep))
 
     # Split the data into training and test sets (modify as needed if already split)
     train_data, test_data = train_test_split(data, test_size=0.2, random_state=42)
@@ -123,7 +144,7 @@ if __name__ == "__main__":
 
     # Training loop
     model.train()
-    for epoch in range(4):  # Number of epochs
+    for epoch in range(20):  # Number of epochs
         for batch in train_loader:
             optimizer.zero_grad()
             inputs, labels = batch['input_ids'].to(device), batch['labels'].to(device)

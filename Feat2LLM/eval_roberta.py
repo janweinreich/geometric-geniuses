@@ -53,13 +53,16 @@ if __name__ == "__main__":
     parser.add_argument('--data', type=str, help='name of dataset to use')
     # options for representation cMBDF, cMBDF_trans, (SPAHM, SPAHM_trans)
     parser.add_argument('--rep', type=str, help='name of representation to use')
+    parser.add_argument(
+        "--modal", type=str, help="name of modality to use", default="vec"
+    )
     args = parser.parse_args()
 
-    data = load_data("{}_{}_test_smi.json".format(args.data, args.rep))
-    _, test_data = train_test_split(data, test_size=0.9, random_state=42)  # Assuming you use the same split
+    test_data = load_data("{}_{}_test.json".format(args.data, args.rep))
+    #_, test_data = train_test_split(data, test_size=0.95, random_state=42)  # Assuming you use the same split
     tokenizer = RobertaTokenizer.from_pretrained('roberta-base')
     test_dataset = MoleculeDataset(test_data, tokenizer)
-    test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False)
+    test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
 
     # Load the model
     # Set device: Apple/NVIDIA/CPU
@@ -70,7 +73,6 @@ if __name__ == "__main__":
     else:
         device = torch.device("cpu")
 
-    model = RobertaForRegression().to(device)
     model = RobertaForRegression().to(device)
     checkpoint = torch.load("save_models/{}_{}_regression.pth".format(args.data, args.rep))
     model.load_state_dict(checkpoint['model_state_dict'])

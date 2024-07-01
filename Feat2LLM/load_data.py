@@ -323,6 +323,7 @@ if __name__ == '__main__':
         tasks, X_train, y_train, X_valid, y_valid, X_test, y_test = molnet_loader(
             args.mn_dataset, preproc=True
         )
+
         print(X_train[1], y_train[1])
         print(X_valid[1], y_valid[1])
         print(X_test[1], y_test[1])
@@ -349,6 +350,7 @@ if __name__ == '__main__':
         X_test_combine  =   combine_str_vec(X_test, X_feat_test_str)
 
         results = {"X_train": X_feat_train, "X_valid": X_feat_valid, "X_test": X_feat_test,
+                   "X_train_SMILES": X_train, "X_valid_SMILES": X_valid, "X_test_SMILES": X_test,
                    "X_train_str": X_feat_train_str, "X_valid_str": X_feat_valid_str, "X_test_str": X_feat_test_str,
                    "X_train_combine": X_train_combine, "X_valid_combine": X_valid_combine, "X_test_combine": X_test_combine,
                    "y_train": y_train, "y_valid": y_valid, "y_test": y_test}
