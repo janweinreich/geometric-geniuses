@@ -136,7 +136,7 @@ if __name__ == "__main__":
     else:
         device = torch.device("cpu")
     model = RobertaForRegression().to(device)
-    optimizer = AdamW(model.parameters(), lr=1e-6)
+    optimizer = AdamW(model.parameters(), lr=1e-6) #-6
 
     # DataLoader setup
     train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)

@@ -3,7 +3,9 @@ import numba as nb
 from numpy import einsum
 from scipy.signal import fftconvolve
 from scipy.fft import next_fast_len
-
+from rdkit import Chem
+from rdkit.Chem import Descriptors
+import pandas as pd
 
 @nb.jit(nopython=True)
 def hermite_polynomial(x, degree, a=1):
@@ -23,7 +25,7 @@ def hermite_polynomial(x, degree, a=1):
         x1 = (a*x)**5
         x2 = (a*x)**3
         return -32*x1 + 160*x2 - 120*(a*x)
-    
+
 @nb.jit(nopython=True)
 def chebyshev_polynomial(x, degree):
     if degree==1:
@@ -351,7 +353,7 @@ def get_cmbdf(charges, coods, convs, pad=None, rcut=10.0,n_atm = 1.0, gradients=
         mat[:size,:nr] = einsum('ij... -> i...',twob)
         mat[:size,nr:] = einsum('ijk... -> i...',threeb)
         return mat
-    
+
 def get_cmbdf_global(charges, coods, asize,rep_size,keys, convs, rcut=10.0,n_atm = 1.0):
     """
     returns the flattened, bagged cMBDF feature vector for a molecule
@@ -544,3 +546,50 @@ def generate_mbdf(nuclear_charges,coords,alpha_list=[1.5,5.0],n_list=[3.0,5.0],g
 def get_cMBDF(CHARGES, COORDINATES, local=False):
     X = generate_mbdf(CHARGES, COORDINATES, local=local)
     return X
+
+
+def compute_rdkit_features(smiles_list):
+    excluded_descriptors = ["FpDensityMorgan1", "FpDensityMorgan2", "FpDensityMorgan3"]
+    descriptor_names = [
+        desc[0] for desc in Descriptors.descList if desc[0] not in excluded_descriptors
+    ]
+    features = []
+    for smi in smiles_list:
+        mol = Chem.MolFromSmiles(smi)
+        if mol is not None:
+            desc_values = []
+            for desc in descriptor_names:
+                try:
+                    desc_values.append(Descriptors.__dict__[desc](mol))
+                except Exception as e:
+                    desc_values.append(0)
+            features.append(desc_values)
+        else:
+            features.append([0] * len(descriptor_names))
+    return np.array(features), descriptor_names
+
+
+def load_freesolv(file_path="./data/freesolv.json"):
+    try:
+        df = pd.read_json(file_path)
+        return df
+    except:
+        print("File not found, download from repository")
+        exit()
+
+
+def freesolv_main():
+    data = load_freesolv()
+
+    smiles_list, G = [], []
+    for mol in data.keys().values:
+        smiles = data[mol]["smiles"]
+        smiles_list.append(smiles)
+        G.append(data[mol]["expt"])
+        print(smiles_list, data[mol]["expt"])
+
+    G = np.array(G)
+
+    rdkit_features, descriptor_names = compute_rdkit_features(smiles_list)
+
+    return smiles_list, rdkit_features, np.array(descriptor_names), G

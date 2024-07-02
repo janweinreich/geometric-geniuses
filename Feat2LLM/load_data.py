@@ -55,6 +55,40 @@ def save_dict_to_json(d, filename):
         json.dump(d, f, default=numpy_encoder, indent=4)
 
 
+def train_and_evaluate(
+    X_train, X_test, y_train, y_test, feature_names, num_features_to_keep
+):
+    import shap, xgboost as xgb
+
+    model = xgb.XGBRegressor(
+        objective="reg:squarederror",
+        random_state=42,
+        max_depth=10,  #
+        n_estimators=100,
+        learning_rate=0.05,
+    )
+    model.fit(X_train, y_train)
+    print("Model training complete.")
+
+
+    # SHAP feature importance
+    explainer = shap.Explainer(model)
+    shap_values = explainer(X_test)
+
+    # Summary plot (beeswarm plot)
+    #shap.summary_plot(shap_values, feature_names=feature_names, plot_type="dot")
+
+    # Get the mean absolute SHAP values for feature importance
+    shap_importance = np.abs(shap_values.values).mean(axis=0)
+    sorted_indices = np.argsort(shap_importance)[::-1]
+
+    # Get the top N features
+    
+    top_features = feature_names[sorted_indices][:num_features_to_keep]
+
+    return top_features
+
+
 def load_json_to_dict(filename, convert_to_numpy=False):
     with open(filename, "r") as f:
         d = json.load(f)
@@ -287,7 +321,7 @@ if __name__ == '__main__':
     python load_data.py --mn_dataset qm7 --featurizer mol2vec --optimize
     """
     parser = argparse.ArgumentParser(description='Generate dataset features', usage=__doc__)
-    parser.add_argument('--mn_dataset', type=str, default='qm7',choices=['qm7', 'delaney', 'lipo', 'tox21'] ,help='Name of the MoleculeNet dataset to load')
+    parser.add_argument('--mn_dataset', type=str, default='qm7' ,help='Name of the MoleculeNet dataset to load')
     parser.add_argument('--featurizer', type=str, default='rdkit', choices=['mol2vec', 'rdkit', 'ecfp', 'mordred'], help='Molecular featurizer to use (default: rdkit)')
     parser.add_argument('--do_small', action='store_true', help='Load MD trajectory dataset features')
     parser.add_argument('--do_smiles', action='store_true', help='Save SMILES data')
@@ -313,6 +347,48 @@ if __name__ == '__main__':
         X_test_selfies  = smiles_to_selfies(X_test)
         results = {"X_train": X_train, "X_valid": X_valid, "X_test": X_test, "y_train": y_train, "y_valid": y_valid, "y_test": y_test, "X_train_selfies": X_train_selfies, "X_valid_selfies": X_valid_selfies, "X_test_selfies": X_test_selfies}
         dump2pkl(results, f"./data/rep_{args.mn_dataset}_smiles_selfies.pkl", compress=True)
+
+    elif args.mn_dataset == "freesolv":
+
+        from representations import freesolv_main
+        from sklearn.model_selection import train_test_split
+
+        SMILES, X,descriptor_names, y = freesolv_main()
+
+        SMILES_train, SMILES_test, X_train, X_test, y_train, y_test = train_test_split(SMILES, X, y, test_size=0.2, random_state=42)
+
+        # col_names = np.array([str(i)  for i in np.arange(X_train.shape[1])])
+        top_features = train_and_evaluate(
+            X_train, X_test, y_train, y_test, descriptor_names, 10
+        )
+        indices = [
+            np.where(descriptor_names == feature)[0][0] for feature in top_features
+        ]
+        #pdb.set_trace()
+        converter = ZipFeaturizer(n_bins=100)
+
+        # pca = PCA(n_components=args.n_components)
+
+        # X_train = pca.fit_transform(X_train)
+        # X_test = pca.transform(X_test)
+
+        X_train = X_train[:, indices]
+        X_test = X_test[:, indices]
+
+        X_train_str = converter.bin_vectors(X_train)
+        X_test_str = converter.bin_vectors(X_test)
+
+        X_train_combine =   combine_str_vec(SMILES_train, X_train_str)
+        X_test_combine  =   combine_str_vec(SMILES_test, X_test_str)
+
+        results = {"X_train": X_train, "X_test": X_test,
+                     "X_train_SMILES": SMILES_train, "X_test_SMILES": SMILES_test,
+                     "X_train_str": X_train_str, "X_test_str": X_test_str,
+                     "X_train_combine": X_train_combine, "X_test_combine": X_test_combine,
+                     "y_train": y_train, "y_test": y_test}
+
+        dump2pkl(results, f"./data/rep_{args.mn_dataset}_{args.featurizer}.pkl", compress=True)
+        pdb.set_trace()
 
     else:
         featurizer_mapping = {
